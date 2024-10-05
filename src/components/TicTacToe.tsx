@@ -5,7 +5,7 @@ const TicTacToe: React.FC = () => {
   const [board, setBoard] = useState<(string | null)[][]>(initialBoard);
   const [isXNext, setIsXNext] = useState<boolean>(true);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
-  const [difficulty, setDifficulty] = useState<string>('easy'); // Difficulty state
+  const [difficulty, setDifficulty] = useState<string>('easy');
 
   const handleClick = (rowIndex: number, colIndex: number) => {
     if (!gameStarted || board[rowIndex][colIndex] || calculateWinner(board) || !isXNext) return;
@@ -17,11 +17,16 @@ const TicTacToe: React.FC = () => {
     );
 
     setBoard(newBoard);
-    setIsXNext(false); // Switch to bot's turn
+    setIsXNext(false); 
   };
 
   const botMove = () => {
     if (!isXNext) {
+      // Check if the board is full before making a move
+      if (isBoardFull(board)) {
+        return; // Do nothing if the board is full
+      }
+      
       let newBoard;
       if (difficulty === 'easy') {
         newBoard = makeRandomMove(board);
@@ -36,11 +41,10 @@ const TicTacToe: React.FC = () => {
         );
       }
       setBoard(newBoard);
-      setIsXNext(true); // Switch back to player's turn
+      setIsXNext(true); 
     }
   };
 
-  // Random move for Easy difficulty
   const makeRandomMove = (newBoard: (string | null)[][]) => {
     const availableMoves = [];
     for (let i = 0; i < 3; i++) {
@@ -48,6 +52,11 @@ const TicTacToe: React.FC = () => {
         if (!newBoard[i][j]) availableMoves.push({ i, j });
       }
     }
+  
+    if (availableMoves.length === 0) {
+      return newBoard; // ถ้าไม่มีการเคลื่อนไหวที่เหลือ ให้คืนค่าเดิมของบอร์ดโดยไม่เปลี่ยนแปลง
+    }
+  
     const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
     return newBoard.map((row, rIdx) =>
       row.map((cell, cIdx) =>
@@ -56,18 +65,16 @@ const TicTacToe: React.FC = () => {
     );
   };
 
-  // Blocking move for Medium difficulty
   const makeBlockingMove = (newBoard: (string | null)[][]) => {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
         if (!newBoard[i][j]) {
-          // Try placing 'X' to see if it blocks
           newBoard[i][j] = 'X';
           if (calculateWinner(newBoard) === 'X') {
-            newBoard[i][j] = 'O'; // Block
+            newBoard[i][j] = 'O'; 
             return newBoard;
           }
-          newBoard[i][j] = null; // Reset
+          newBoard[i][j] = null; 
         }
       }
     }
@@ -164,6 +171,12 @@ const TicTacToe: React.FC = () => {
     setGameStarted(true);
   };
 
+  const handleResetGame = () => {
+    setBoard(initialBoard);
+    setIsXNext(true);
+    setGameStarted(false); // Stop the current game
+  };
+
   const winner = calculateWinner(board);
   const isTie = !winner && isBoardFull(board);
   const canResetGame = !!winner || isTie;
@@ -172,7 +185,7 @@ const TicTacToe: React.FC = () => {
     if (gameStarted && !isXNext && !winner) {
       const timer = setTimeout(() => {
         botMove();
-      }, 500); // 500ms delay for the bot's move
+      }, 500); 
       return () => clearTimeout(timer);
     }
   }, [isXNext, board, gameStarted, winner]);
@@ -184,7 +197,6 @@ const TicTacToe: React.FC = () => {
           {winner ? `Winner: ${winner}` : isTie ? 'Tie' : `Next Player: ${isXNext ? 'X' : 'O'}`}
         </h2>
 
-        {/* Difficulty Selection */}
         <div className="mb-4 text-center">
           <label htmlFor="difficulty" className="mr-2">Select Difficulty:</label>
           <select
@@ -195,8 +207,8 @@ const TicTacToe: React.FC = () => {
             disabled={gameStarted} // Disable during the game
           >
             <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
+            <option value="medium">Normal</option>
+            <option value="hard">Expert</option>
           </select>
         </div>
 
@@ -207,9 +219,8 @@ const TicTacToe: React.FC = () => {
                 key={`${rowIndex}-${colIndex}`}
                 className={`h-24 w-24 flex items-center justify-center text-4xl font-bold 
                             ${cell ? 'text-gray-500 bg-gray-200' : 'text-blue-600 bg-white'} 
-                            border-2 border-gray-400 rounded-lg transition duration-200 transform hover:scale-105`}
+                            border border-gray-300 rounded-lg shadow-md`}
                 onClick={() => handleClick(rowIndex, colIndex)}
-                disabled={!!cell || !!winner || !gameStarted} // Disable if cell is filled, game won, or not started
               >
                 {cell}
               </button>
@@ -217,14 +228,20 @@ const TicTacToe: React.FC = () => {
           )}
         </div>
 
-        {/* Start/Reset Button */}
         <div className="mt-4 text-center">
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
             onClick={handleStartGame}
-            disabled={!canResetGame && gameStarted} // Disable button if game is already ongoing
+            disabled={gameStarted}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
           >
-            {canResetGame ? 'Reset Game' : 'Start Game'}
+            Start Game
+          </button>
+          <button
+            onClick={handleResetGame}
+            disabled={!canResetGame}
+            className="bg-red-500 text-white px-4 py-2 rounded ml-2 hover:bg-red-600"
+          >
+            Reset Game
           </button>
         </div>
       </div>
