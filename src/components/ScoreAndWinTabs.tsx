@@ -73,7 +73,7 @@ const ScoreAndWinTabs: React.FC<ScoreAndWinTabsProps> = ({ language }) => {
 
   return (
     <div className="p-5 bg-white rounded-lg shadow-lg w-full mt-10">
-      <Title level={2} className="text-center text-xl mb-4">{STATISTICLABEL.gameStatistics[language]}</Title>
+      <Title level={2} className="text-center text-xl mb-4">{STATISTICLABEL.leaderBoard[language]}</Title>
       <Tabs defaultActiveKey="1" className="mb-4">
         <TabPane tab={STATISTICLABEL.topScorers[language]} key="1">
           <div className="flex flex-col">

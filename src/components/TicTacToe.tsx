@@ -59,7 +59,7 @@ const TicTacToe: React.FC = () => {
 
   const winner = calculateWinner(board);
   const isTie = !winner && isBoardFull(board);
-  const isGameOngoing = !!winner || isTie; // Ensure this is a boolean
+  const canResetGame = !!winner || isTie; // Game can reset if there's a winner or a tie
 
   return (
     <div className="flex-grow p-4 bg-green-50 m-2 rounded-lg shadow-md">
@@ -75,7 +75,7 @@ const TicTacToe: React.FC = () => {
                           ${cell ? 'text-gray-500 bg-gray-200' : 'text-blue-600 bg-white'} 
                           border-2 border-gray-400 rounded-lg transition duration-200 transform hover:scale-105`}
               onClick={() => handleClick(rowIndex, colIndex)}
-              disabled={!gameStarted || !!cell || isGameOngoing} // Ensure this expression returns a boolean
+              disabled={!gameStarted || !!cell || !!winner} // Disable if game hasn't started or cell is occupied or there's a winner
             >
               {cell}
             </button>
@@ -93,8 +93,11 @@ const TicTacToe: React.FC = () => {
         ) : (
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
-            onClick={() => setBoard(initialBoard)}
-            disabled={!isTie} // Disable reset if game is not a tie
+            onClick={() => {
+              setBoard(initialBoard);
+              setGameStarted(false); // Reset the game state to false
+            }}
+            disabled={!canResetGame} // Disable if there's no winner or tie
           >
             Reset Game
           </button>

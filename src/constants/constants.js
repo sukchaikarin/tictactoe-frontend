@@ -51,9 +51,9 @@ export const HOWTOPLAY = {
 };
 
 export const STATISTICLABEL = {
-  gameStatistics: {
-    en: "Game Statistics",
-    th: "สถิติเกม",
+  leaderBoard: {
+    en: "Leader Board",
+    th: "กระดานผู้นำ",
   },
   topScorers: {
     en: "Top Scorers",
