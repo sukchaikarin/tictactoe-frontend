@@ -1,10 +1,14 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-
+import { FcGoogle } from "react-icons/fc";
+import { AUTH_CONSTANTS, COPYRIGHT  } from '../constants/constants';
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage login status
-
+  const handleSignIn = () => {
+    console.log(AUTH_CONSTANTS.SIGN_IN_WITH_GOOGLE);
+    // เพิ่ม logic การเซ็นอินด้วย Google ที่นี่
+  };
   const handleGoogleLogin = () => {
     // Change this URL to your NestJS API for Google login
     //window.location.href = "http://localhost:3001/v1/auth/google/";
@@ -37,22 +41,41 @@ export default function Home() {
   }, []); // Run this effect only once when the component mounts
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {!isLoggedIn && ( // Render button only if not logged in
+    <main className="flex flex-col min-h-screen justify-items-center">
+    
+  
+    <div className="flex  flex-1 my-10  justify-items-center justify-between gap-10  h-full  bg-primary">
+    <nav className="bg-yellow-50 w-full h-9">
+    asdad
+    {!isLoggedIn && (
+        
+        <div className="flex items-center justify-between gap-2 rounded-md border border-transparent bg-gray-30 text-blue-20 text-lg h-12 px-6 hover:bg-[#ddd] transition duration-300">
+
+<FcGoogle/>
         <button
           onClick={handleGoogleLogin}
-          className="flex items-center justify-center rounded-full border border-transparent bg-blue-600 text-white text-lg h-12 px-6 hover:bg-blue-700 transition duration-300"
+          className="text-grey-10"
         >
-          <Image
-            className="mr-2"
-            src="https://upload.wikimedia.org/wikipedia/commons/5/51/Google_%22G%22_Logo.svg" // Google icon
-            alt="Google logo"
-            width={24}
-            height={24}
-          />
-          Sign in with Google
+          
+          
+          {AUTH_CONSTANTS.SIGN_IN_WITH_GOOGLE}
         </button>
+        </div>
       )}
+    </nav> 
+     
+  <section className="bg-red-20 w-full">
+section
+  </section>
+  <aside className="bg-blue-20 w-full">
+aside
+    </aside>
     </div>
+    
+  
+    
+    <footer className="h-12 flex justify-center items-center bg-gray-90 text-blue-20">
+      <span>{COPYRIGHT}</span></footer>
+    </main>
   );
 }
