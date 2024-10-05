@@ -21,38 +21,83 @@ const TicTacToe: React.FC = () => {
 
   const botMove = () => {
     if (!isXNext) {
-      const availableMoves = [];
-      for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-          if (!board[i][j]) availableMoves.push({ i, j });
+      const bestMove = findBestMove(board);
+      const newBoard = board.map((row, rIdx) =>
+        row.map((cell, cIdx) =>
+          rIdx === bestMove.i && cIdx === bestMove.j ? 'O' : cell // Bot plays 'O'
+        )
+      );
+      setBoard(newBoard);
+      setIsXNext(true); // Switch back to player's turn after bot's move
+    }
+  };
+
+  const findBestMove = (newBoard: string[][]) => {
+    let bestScore = -Infinity;
+    let move = { i: 0, j: 0 };
+
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (!newBoard[i][j]) {
+          newBoard[i][j] = 'O';
+          const score = minimax(newBoard, 0, false);
+          //@ts-ignore
+          newBoard[i][j] = null;
+          if (score > bestScore) {
+            bestScore = score;
+            move = { i, j };
+          }
         }
       }
+    }
+    return move;
+  };
 
-      if (availableMoves.length > 0) {
-        const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-        const newBoard = board.map((row, rIdx) =>
-          row.map((cell, cIdx) =>
-            rIdx === randomMove.i && cIdx === randomMove.j ? 'O' : cell // Assuming bot plays 'O'
-          )
-        );
+  const minimax = (newBoard: string[][], depth: number, isMaximizing: boolean) => {
+    const winner = calculateWinner(newBoard);
+    if (winner === 'O') return 10 - depth;
+    if (winner === 'X') return depth - 10;
+    if (isBoardFull(newBoard)) return 0;
 
-        setBoard(newBoard);
-        setIsXNext(true); // Switch back to player's turn after bot's move
+    if (isMaximizing) {
+      let bestScore = -Infinity;
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (!newBoard[i][j]) {
+            newBoard[i][j] = 'O';
+            const score = minimax(newBoard, depth + 1, false);
+            //@ts-ignore
+            newBoard[i][j] = null;
+            bestScore = Math.max(score, bestScore);
+          }
+        }
       }
+      return bestScore;
+    } else {
+      let bestScore = Infinity;
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (!newBoard[i][j]) {
+            newBoard[i][j] = 'X';
+            const score = minimax(newBoard, depth + 1, true);
+            //@ts-ignore
+            newBoard[i][j] = null;
+            bestScore = Math.min(score, bestScore);
+          }
+        }
+      }
+      return bestScore;
     }
   };
 
   const calculateWinner = (squares: string[][]): string | null => {
     const lines = [
-      // Horizontal
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8],
-      // Vertical
       [0, 3, 6],
       [1, 4, 7],
       [2, 5, 8],
-      // Diagonal
       [0, 4, 8],
       [2, 4, 6],
     ];
@@ -82,7 +127,7 @@ const TicTacToe: React.FC = () => {
 
   const winner = calculateWinner(board);
   const isTie = !winner && isBoardFull(board);
-  const canResetGame = !!winner || isTie; // Game can reset if there's a winner or a tie
+  const canResetGame = !!winner || isTie;
 
   useEffect(() => {
     if (gameStarted && !isXNext && !winner) {
@@ -108,8 +153,8 @@ const TicTacToe: React.FC = () => {
                             ${cell ? 'text-gray-500 bg-gray-200' : 'text-blue-600 bg-white'} 
                             border-2 border-gray-400 rounded-lg transition duration-200 transform hover:scale-105`}
                 onClick={() => handleClick(rowIndex, colIndex)}
-                disabled={!gameStarted || !!cell || !!winner} // Disable if game hasn't started or cell is occupied or there's a winner
-                style={{ cursor: !isXNext ? 'not-allowed' : 'pointer' }} // Set cursor based on turn
+                disabled={!gameStarted || !!cell || !!winner}
+                style={{ cursor: !isXNext ? 'not-allowed' : 'pointer' }}
               >
                 {cell}
               </button>
@@ -129,9 +174,9 @@ const TicTacToe: React.FC = () => {
               className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
               onClick={() => {
                 setBoard(initialBoard);
-                setGameStarted(false); // Reset the game state to false
+                setGameStarted(false);
               }}
-              disabled={!canResetGame} // Disable if there's no winner or tie
+              disabled={!canResetGame}
             >
               Reset Game
             </button>
