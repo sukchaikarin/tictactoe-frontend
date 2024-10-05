@@ -3,9 +3,10 @@ import Image from 'next/image';
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import ox from "../../public/logo/ox-games.webp"
-import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY, SWITCHLANG,GAME_RULES } from '../constants/constants';
+import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY, SWITCHLANG, GAME_RULES } from '../constants/constants';
 import React from 'react';
 import GamesRules from '@/components/modals/GamesRules';
+import { Button } from 'react-daisyui';
 export default function Home() {
   const [language, setLanguage] = useState<'en' | 'th'>('en'); // กำหนดประเภทให้เป็น 'en' หรือ 'th'
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage login status
@@ -89,17 +90,14 @@ export default function Home() {
           <div className='bg-green-50 h-full mb-10 flex flex-col gap-4 py-10 '>
 
             {!isLoggedIn && (
-
-              <button onClick={handleGoogleLogin} id="SignInGoogle" className="btn w-full"><FcGoogle />{AUTH_CONSTANTS.SIGN_IN[language]}</button>
-
+              <>
+                <Button onClick={handleGoogleLogin} id="SignInGoogle" className="btn w-full"><FcGoogle />{AUTH_CONSTANTS.SIGN_IN[language]}</Button>
+                <Button onClick={openModalHowToPlay} id="btn-how-to-play" className="btn w-full">{HOWTOPLAY.TITLE[language]}</Button>
+              </>
             )}
-            <button onClick={openModalHowToPlay} id="btn-how-to-play" className="btn w-full">{HOWTOPLAY.TITLE[language]}</button>
             <div>
 
-
-         
-
-<GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
+              <GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
 
             </div>
 
