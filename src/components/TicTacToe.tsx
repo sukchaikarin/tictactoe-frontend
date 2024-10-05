@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const TicTacToe: React.FC = () => {
   const initialBoard = Array(3).fill(null).map(() => Array(3).fill(null));
@@ -16,7 +16,23 @@ const TicTacToe: React.FC = () => {
     );
 
     setBoard(newBoard);
-    setIsXNext(!isXNext);
+    setIsXNext(false); // Switch to bot's turn
+  };
+
+  const botMove = () => {
+    if (!isXNext) {
+      const availableMoves = [];
+      for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+          if (!board[i][j]) availableMoves.push({ i, j });
+        }
+      }
+
+      if (availableMoves.length > 0) {
+        const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+        handleClick(randomMove.i, randomMove.j);
+      }
+    }
   };
 
   const calculateWinner = (squares: string[][]): string | null => {
@@ -60,6 +76,16 @@ const TicTacToe: React.FC = () => {
   const winner = calculateWinner(board);
   const isTie = !winner && isBoardFull(board);
   const canResetGame = !!winner || isTie; // Game can reset if there's a winner or a tie
+
+  useEffect(() => {
+    if (gameStarted && !isXNext && !winner) {
+      const timer = setTimeout(() => {
+        botMove();
+        setIsXNext(true); // Switch back to player after bot's turn
+      }, 500); // 500ms delay for the bot's move
+      return () => clearTimeout(timer);
+    }
+  }, [isXNext, board, gameStarted, winner]);
 
   return (
     <div className="flex-grow p-4 bg-green-50 m-2 rounded-lg shadow-md">
