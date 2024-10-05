@@ -183,6 +183,10 @@ const TicTacToe: React.FC = () => {
 
   useEffect(() => {
     if (gameStarted && !isXNext && !winner) {
+      // Check if the board is full before making a move
+      if (isBoardFull(board)) {
+        return; // Do nothing if the board is full
+      } 
       const timer = setTimeout(() => {
         botMove();
       }, 500); 
