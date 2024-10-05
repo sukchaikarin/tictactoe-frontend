@@ -52,54 +52,48 @@ export default function Home() {
 
   return (
     <main className="flex flex-col min-h-screen justify-items-center">
-
-
       <div className="flex  flex-1 my-10  justify-items-center justify-between gap-10  h-full  bg-primary">
         <nav className="bg-yellow-50 gap-10 w-full flex flex-col  my-10 items-center relative">
-        <div className="join scale-75 absolute top-3 right-3">
-        <input
-          className="join-item btn"
-          type="radio"
-          name="options"
-          aria-label={SWITCHLANG.BUTTON_LABEL.en}
-          checked={language === 'en'}
-          onChange={() => toggleLanguage('en')} // สลับเป็นภาษาอังกฤษ
-        />
-        <input
-          className="join-item btn"
-          type="radio"
-          name="options"
-          aria-label={SWITCHLANG.BUTTON_LABEL.th}
-          checked={language === 'th'}
-          onChange={() => toggleLanguage('th')} // สลับเป็นภาษาไทย
-        />
-      </div>
-          {/* <button
-            onClick={toggleLanguage}
-            className={`btn scale-75 text-sm rounded-full absolute top-3 right-3 ${language === 'en' ? 'bg-green-90' : 'bg-primary'}`}
-          >
-            {SWITCHLANG.BUTTON_LABEL[language]}
-          </button> */}
+          <div className="join scale-75 absolute top-3 right-3">
+            <input
+              id="radioENG"
+              className="join-item btn"
+              type="radio"
+              name="options"
+              aria-label={SWITCHLANG.BUTTON_LABEL.en}
+              checked={language === 'en'}
+              onChange={() => toggleLanguage('en')} // สลับเป็นภาษาอังกฤษ
+            />
+            <input
+              id="radioTH"
+              className="join-item btn"
+              type="radio"
+              name="options"
+              aria-label={SWITCHLANG.BUTTON_LABEL.th}
+              checked={language === 'th'}
+              onChange={() => toggleLanguage('th')} // สลับเป็นภาษาไทย
+            />
+          </div>
           <div className="w-2/3 h-1/3 flex items-center  mt-10 ">
             <Image
               src={ox}
               alt="Description of the image"
-              layout="responsive" 
+              layout="responsive"
             />
           </div>
           <div className='bg-green-50 h-full mb-10 flex flex-col gap-4 py-10 '>
 
             {!isLoggedIn && (
 
-              <button onClick={handleGoogleLogin} className="btn w-full"><FcGoogle />{AUTH_CONSTANTS.SIGN_IN[language]}</button>
+              <button onClick={handleGoogleLogin} id="SignInGoogle" className="btn w-full"><FcGoogle />{AUTH_CONSTANTS.SIGN_IN[language]}</button>
 
             )}
-            <button onClick={openModal} className="btn w-full">{HOWTOPLAY.TITLE[language]}</button>
+            <button onClick={openModal} id="btn-how-to-play" className="btn w-full">{HOWTOPLAY.TITLE[language]}</button>
             <div>
 
 
               {isOpen && (
-                <div className="modal modal-open">
+                <div id="howToPlayModal" className="modal modal-open">
                   <div className="modal-box">
                     <h2 className="font-bold text-lg text-gray-10">Modal Title</h2>
                     <p className=''>Modal content goes here...</p>
