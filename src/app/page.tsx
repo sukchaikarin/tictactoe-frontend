@@ -3,15 +3,21 @@ import Image from 'next/image';
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import ox from "../../public/logo/ox-games.webp"
-import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY, SWITCHLANG } from '../constants/constants';
+import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY, SWITCHLANG,GAME_RULES } from '../constants/constants';
 import React from 'react';
+import GamesRules from '@/components/modals/GamesRules';
 export default function Home() {
   const [language, setLanguage] = useState<'en' | 'th'>('en'); // กำหนดประเภทให้เป็น 'en' หรือ 'th'
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage login status
-  const [isOpen, setIsOpen] = useState(false); // ใช้เพื่อจัดการสถานะเปิด/ปิดของ modal
+  //const [isOpen, setIsOpen] = useState(false); // ใช้เพื่อจัดการสถานะเปิด/ปิดของ modal
 
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const [isModalHowToPlayOpen, setModalHowToPlayOpen] = useState<boolean>(false);
+
+  const openModalHowToPlay = () => setModalHowToPlayOpen(true);
+  const closeModalHowToPlay = () => setModalHowToPlayOpen(false);
+
+  //const openModal = () => setIsOpen(true);
+  //const closeModal = () => setIsOpen(false);
   const handleGoogleLogin = () => {
     // Change this URL to your NestJS API for Google login
     window.location.href = "http://localhost:3001/v1/auth/google/";
@@ -28,7 +34,6 @@ export default function Home() {
   useEffect(() => {
     // Check for token in localStorage on component mount
     const token = localStorage.getItem("token"); // Get the token from localStorage
-
     if (token) {
       console.log("Token found in localStorage:", token); // Log the token
       setIsLoggedIn(true); // Update the login state
@@ -88,22 +93,13 @@ export default function Home() {
               <button onClick={handleGoogleLogin} id="SignInGoogle" className="btn w-full"><FcGoogle />{AUTH_CONSTANTS.SIGN_IN[language]}</button>
 
             )}
-            <button onClick={openModal} id="btn-how-to-play" className="btn w-full">{HOWTOPLAY.TITLE[language]}</button>
+            <button onClick={openModalHowToPlay} id="btn-how-to-play" className="btn w-full">{HOWTOPLAY.TITLE[language]}</button>
             <div>
 
 
-              {isOpen && (
-                <div id="howToPlayModal" className="modal modal-open">
-                  <div className="modal-box">
-                    <h2 className="font-bold text-lg text-gray-10">Modal Title</h2>
-                    <p className=''>Modal content goes here...</p>
-                    <div className="modal-action">
-                      <button className="btn" onClick={closeModal}>Close</button>
-                    </div>
-                  </div>
-                </div>
-              )}
+         
 
+<GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
 
             </div>
 
