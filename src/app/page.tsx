@@ -3,73 +3,16 @@ import Image from 'next/image';
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import ox from "../../public/logo/ox-games.webp"
-import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY, SWITCHLANG, GAME_RULES } from '../constants/constants';
+import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY, SWITCHLANG,  } from '../constants/constants';
 import React from 'react';
 import GamesRules from '@/components/modals/GamesRules';
 import { Button } from 'react-daisyui';
-import { Table } from "antd";
 import ScoreAndWinTabs from '@/components/ScoreAndWinTabs';
 import TicTacToe from '@/components/TicTacToe';
 
-// ตัวอย่างข้อมูล
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-  {
-    key: '3',
-    name: 'Jane',
-    age: 29,
-    address: '10 Downing Street',
-  },
-  {
-    key: '4',
-    name: 'Doe',
-    age: 35,
-    address: '10 Downing Street',
-  },
-  {
-    key: '5',
-    name: 'Smith',
-    age: 40,
-    address: '10 Downing Street',
-  },
-  {
-    key: '6',
-    name: 'Williams',
-    age: 50,
-    address: '10 Downing Street',
-  },
-  // เพิ่มข้อมูลตามต้องการ
-];
 
-// กำหนดคอลัมน์
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-];
+
+
 
 
 export default function Home() {
@@ -152,7 +95,8 @@ export default function Home() {
               className='border-2 border-gray-10 rounded-xl shadow-lg'
               src={ox}
               alt="Description of the image"
-              layout="responsive"
+              width={500}
+             
             />
           </div>
 

@@ -16,6 +16,7 @@ const config: Config = {
       'lg': '1160px',
       'xl': '1300px',
       '2xl': '1536px',
+      '4xl': '1860px',
     },
     colors: {
       yellow: {

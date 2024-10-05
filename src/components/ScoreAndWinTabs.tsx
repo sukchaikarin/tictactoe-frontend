@@ -3,7 +3,6 @@ import { Tabs, Table, Typography } from 'antd';
 import CustomPagination from './CustomPagination';
 import { STATISTICLABEL } from '../constants/constants'; // นำเข้า STATISTICLABEL
 
-const { TabPane } = Tabs;
 const { Title } = Typography;
 
 interface TopScorer {
@@ -74,47 +73,54 @@ const ScoreAndWinTabs: React.FC<ScoreAndWinTabsProps> = ({ language }) => {
   return (
     <div className="p-5 bg-white rounded-lg shadow-lg w-full mt-10">
       <Title level={2} className="text-center text-xl mb-4">{STATISTICLABEL.leaderBoard[language]}</Title>
-      <Tabs defaultActiveKey="1" className="mb-4">
-        <TabPane tab={STATISTICLABEL.topScorers[language]} key="1">
-          <div className="flex flex-col">
-            <Table
-              dataSource={paginatedScorers}
-              columns={columnsScorers}
-              pagination={false}
-              bordered
-              className="rounded-lg overflow-hidden"
-            />
-            <div className="flex justify-end mt-4">
-              <CustomPagination
-                current={scorerPage}
-                total={topScorers.length}
-                pageSize={pageSize}
-                onPageChange={handleScorerPageChange}
+      <Tabs defaultActiveKey="1" className="mb-4" items={[
+        {
+          key: '1',
+          label: STATISTICLABEL.topScorers[language],
+          children: (
+            <div className="flex flex-col">
+              <Table
+                dataSource={paginatedScorers}
+                columns={columnsScorers}
+                pagination={false}
+                bordered
+                className="rounded-lg overflow-hidden"
               />
+              <div className="flex justify-end mt-4">
+                <CustomPagination
+                  current={scorerPage}
+                  total={topScorers.length}
+                  pageSize={pageSize}
+                  onPageChange={handleScorerPageChange}
+                />
+              </div>
             </div>
-          </div>
-        </TabPane>
-
-        <TabPane tab={STATISTICLABEL.topWinners[language]} key="2">
-          <div className="flex flex-col">
-            <Table
-              dataSource={paginatedWinners}
-              columns={columnsWinners}
-              pagination={false}
-              bordered
-              className="rounded-lg overflow-hidden"
-            />
-            <div className="flex justify-end mt-4">
-              <CustomPagination
-                current={winnerPage}
-                total={topWinners.length}
-                pageSize={pageSize}
-                onPageChange={handleWinnerPageChange}
+          ),
+        },
+        {
+          key: '2',
+          label: STATISTICLABEL.topWinners[language],
+          children: (
+            <div className="flex flex-col">
+              <Table
+                dataSource={paginatedWinners}
+                columns={columnsWinners}
+                pagination={false}
+                bordered
+                className="rounded-lg overflow-hidden"
               />
+              <div className="flex justify-end mt-4">
+                <CustomPagination
+                  current={winnerPage}
+                  total={topWinners.length}
+                  pageSize={pageSize}
+                  onPageChange={handleWinnerPageChange}
+                />
+              </div>
             </div>
-          </div>
-        </TabPane>
-      </Tabs>
+          ),
+        },
+      ]} />
     </div>
   );
 };

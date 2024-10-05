@@ -183,25 +183,24 @@ const TicTacToe: React.FC = () => {
 
   useEffect(() => {
     if (gameStarted && !isXNext && !winner) {
-      // Check if the board is full before making a move
-      if (isBoardFull(board)) {
-        return; // Do nothing if the board is full
-      } 
-      const timer = setTimeout(() => {
-        botMove();
-      }, 500); 
-      return () => clearTimeout(timer);
+        // ตรวจสอบว่ากระดานเต็มก่อนทำการเคลื่อนไหว
+        if (isBoardFull(board)) {
+            return; // ไม่ทำอะไรถ้ากระดานเต็ม
+        } 
+        const timer = setTimeout(() => {
+            botMove();
+        }, 500); 
+        return () => clearTimeout(timer);
     }
-  }, [isXNext, board, gameStarted, winner]);
+}, [isXNext, board, gameStarted, winner, botMove]); 
 
   return (
-    <div className="flex items-center justify-center h-2/3 bg-yellow-20">
-      <div className="flex-grow p-4 bg-white m-2 rounded-lg shadow-md max-w-md">
-        <h2 className="text-center text-2xl mb-4">
-          {winner ? `Winner: ${winner}` : isTie ? 'Tie' : `Next Player: ${isXNext ? 'X' : 'O'}`}
-        </h2>
-
-        <div className="mb-4 text-center">
+    <div className="flex items-center justify-center h-full bg-yellow-20 m-2">
+      <div className="w-full flex flex-col gap-4 h-full justify-center items-center bg-yellow-70  rounded-lg shadow-md max-w-md">
+        
+        
+      <div className="mt-4 text-center">
+        <div className="mb-4 text-center ">
           <label htmlFor="difficulty" className="mr-2">Select Difficulty:</label>
           <select
             id="difficulty"
@@ -215,24 +214,6 @@ const TicTacToe: React.FC = () => {
             <option value="hard">Expert</option>
           </select>
         </div>
-
-        <div className="grid grid-cols-3 gap-2">
-          {board.map((row, rowIndex) =>
-            row.map((cell, colIndex) => (
-              <button
-                key={`${rowIndex}-${colIndex}`}
-                className={`h-24 w-24 flex items-center justify-center text-4xl font-bold 
-                            ${cell ? 'text-gray-500 bg-gray-200' : 'text-blue-600 bg-white'} 
-                            border border-gray-300 rounded-lg shadow-md`}
-                onClick={() => handleClick(rowIndex, colIndex)}
-              >
-                {cell}
-              </button>
-            ))
-          )}
-        </div>
-
-        <div className="mt-4 text-center">
           <button
             onClick={handleStartGame}
             disabled={gameStarted}
@@ -248,6 +229,26 @@ const TicTacToe: React.FC = () => {
             Reset Game
           </button>
         </div>
+        <div className="grid grid-cols-3 gap-4">
+        {board.map((row, rowIndex) =>
+  row.map((cell, colIndex) => (
+    <button
+      key={`${rowIndex}-${colIndex}`}
+      className={`h-24 w-24 flex items-center justify-center text-4xl font-bold hover:scale-105
+                  ${cell ? 'text-gray-500 bg-gray-200 cursor-not-allowed' : 'text-blue-600 bg-white'}
+                  border border-gray-300 rounded-lg shadow-md 
+                  ${!isXNext ? 'cursor-not-allowed' : ''}`} // Add this line
+      onClick={() => handleClick(rowIndex, colIndex)}
+      disabled={!isXNext} // Prevent clicking if it's not X's turn
+    >
+      {cell}
+    </button>
+  ))
+)}
+        </div>
+        <h2 className="text-center text-2xl ">
+          {winner ? `Winner: ${winner}` : isTie ? 'Tie' : `Next Player: ${isXNext ? 'X' : 'O'}`}
+        </h2>
       </div>
     </div>
   );
