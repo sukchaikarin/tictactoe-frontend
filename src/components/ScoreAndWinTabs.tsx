@@ -1,0 +1,117 @@
+// ScoreAndWinTabs.tsx
+import React, { useState } from 'react';
+import { Tabs, Table, Typography } from 'antd';
+import CustomPagination from './CustomPagination';
+
+const { TabPane } = Tabs;
+const { Title } = Typography;
+
+interface TopScorer {
+  key: string;
+  name: string;
+  score: number;
+}
+
+interface TopWinner {
+  key: string;
+  name: string;
+  consecutiveWins: number;
+}
+
+// ข้อมูลตัวอย่าง
+const topScorers: TopScorer[] = [
+  { key: '1', name: 'Alice', score: 95 },
+  { key: '2', name: 'Bob', score: 90 },
+  { key: '3', name: 'Charlie', score: 85 },
+  { key: '4', name: 'David', score: 80 },
+  { key: '5', name: 'Eva', score: 75 },
+  { key: '6', name: 'Frank', score: 70 },
+];
+
+const topWinners: TopWinner[] = [
+  { key: '1', name: 'George', consecutiveWins: 6 },
+  { key: '2', name: 'Hannah', consecutiveWins: 5 },
+  { key: '3', name: 'Ian', consecutiveWins: 4 },
+  { key: '4', name: 'Jane', consecutiveWins: 3 },
+  { key: '5', name: 'Kyle', consecutiveWins: 2 },
+];
+
+const ScoreAndWinTabs: React.FC = () => {
+  const [scorerPage, setScorerPage] = useState(1);
+  const [winnerPage, setWinnerPage] = useState(1);
+  const pageSize = 3; // จำนวนข้อมูลต่อหน้า
+
+  // ฟังก์ชันจัดการการเปลี่ยนหน้า
+  const handleScorerPageChange = (page: number) => {
+    setScorerPage(page);
+  };
+
+  const handleWinnerPageChange = (page: number) => {
+    setWinnerPage(page);
+  };
+
+  // คอลัมน์สำหรับคะแนนสูงสุด
+  const columnsScorers = [
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Score', dataIndex: 'score', key: 'score' },
+  ];
+
+  // คอลัมน์สำหรับผู้ชนะติดต่อกัน
+  const columnsWinners = [
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Consecutive Wins', dataIndex: 'consecutiveWins', key: 'consecutiveWins' },
+  ];
+
+  // แบ่งข้อมูลตามหน้า
+  const paginatedScorers = topScorers.slice((scorerPage - 1) * pageSize, scorerPage * pageSize);
+  const paginatedWinners = topWinners.slice((winnerPage - 1) * pageSize, winnerPage * pageSize);
+
+  return (
+    <div className="p-5 bg-white rounded-lg shadow-lg w-full mt-10">
+      <Title level={2} className="text-center text-xl mb-4">Game Statistics</Title>
+      <Tabs defaultActiveKey="1" className="mb-4">
+      <TabPane tab="Top Scorers" key="1">
+  <div className="flex flex-col">
+    <Table
+      dataSource={paginatedScorers}
+      columns={columnsScorers}
+      pagination={false}
+      bordered
+      className="rounded-lg overflow-hidden"
+    />
+    <div className="flex justify-end mt-4">
+      <CustomPagination
+        current={scorerPage}
+        total={topScorers.length}
+        pageSize={pageSize}
+        onPageChange={handleScorerPageChange}
+      />
+    </div>
+  </div>
+</TabPane>
+
+        <TabPane tab="Top Winners" key="2">
+  <div className="flex flex-col">
+    <Table
+      dataSource={paginatedWinners}
+      columns={columnsWinners}
+      pagination={false}
+      bordered
+      className="rounded-lg overflow-hidden"
+    />
+    <div className="flex justify-end mt-4">
+      <CustomPagination
+        current={winnerPage}
+        total={topWinners.length}
+        pageSize={pageSize}
+        onPageChange={handleWinnerPageChange}
+      />
+    </div>
+  </div>
+</TabPane>
+      </Tabs>
+    </div>
+  );
+};
+
+export default ScoreAndWinTabs;

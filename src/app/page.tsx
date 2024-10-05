@@ -7,6 +7,70 @@ import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY, SWITCHLANG, GAME_RULES } from '../co
 import React from 'react';
 import GamesRules from '@/components/modals/GamesRules';
 import { Button } from 'react-daisyui';
+import { Table } from "antd";
+import ScoreAndWinTabs from '@/components/ScoreAndWinTabs';
+
+// ตัวอย่างข้อมูล
+const dataSource = [
+  {
+    key: '1',
+    name: 'Mike',
+    age: 32,
+    address: '10 Downing Street',
+  },
+  {
+    key: '2',
+    name: 'John',
+    age: 42,
+    address: '10 Downing Street',
+  },
+  {
+    key: '3',
+    name: 'Jane',
+    age: 29,
+    address: '10 Downing Street',
+  },
+  {
+    key: '4',
+    name: 'Doe',
+    age: 35,
+    address: '10 Downing Street',
+  },
+  {
+    key: '5',
+    name: 'Smith',
+    age: 40,
+    address: '10 Downing Street',
+  },
+  {
+    key: '6',
+    name: 'Williams',
+    age: 50,
+    address: '10 Downing Street',
+  },
+  // เพิ่มข้อมูลตามต้องการ
+];
+
+// กำหนดคอลัมน์
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+];
+
+
 export default function Home() {
   const [language, setLanguage] = useState<'en' | 'th'>('en'); // กำหนดประเภทให้เป็น 'en' หรือ 'th'
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage login status
@@ -57,10 +121,12 @@ export default function Home() {
   }, []); // Run this effect only once when the component mounts
 
   return (
-    <main className="flex flex-col min-h-screen justify-items-center">
-      <div className="flex  flex-1 my-10  justify-items-center justify-between gap-10  h-full  bg-primary">
-        <nav className="bg-yellow-50 gap-10 w-full flex flex-col  my-10 items-center relative">
-          <div className="join scale-75 absolute top-3 right-3">
+    <main className="flex flex-col min-h-screen justify-items-center bg-primary">
+
+      <div className="flex  flex-1 my-10  justify-items-center justify-between gap-10  h-full ">
+
+        <nav className="gap-10 w-full flex flex-col  my-10 items-center relative bg-gray-90 rounded-r-xl shadow-lg border-2  border-gray-10">
+          <div className="join scale-75 absolute top-1 right-1 shadow-md border-2 border-gray-10 rounded-xl">
             <input
               id="radioENG"
               className="join-item btn"
@@ -80,45 +146,54 @@ export default function Home() {
               onChange={() => toggleLanguage('th')} // สลับเป็นภาษาไทย
             />
           </div>
-          <div className="w-2/3 h-1/3 flex items-center  mt-10 ">
+          <div className="w-8/10 h-1/3 flex items-center  m-5 mt-10">
             <Image
+              className='border-2 border-gray-10 rounded-xl shadow-lg'
               src={ox}
               alt="Description of the image"
               layout="responsive"
             />
           </div>
-          <div className='bg-green-50 h-full mb-10 flex flex-col gap-4 py-10 '>
 
+          <div className=' h-full w-full'>
             {!isLoggedIn && (
-              <>
-                <Button onClick={handleGoogleLogin} id="SignInGoogle" className="btn w-full"><FcGoogle />{AUTH_CONSTANTS.SIGN_IN[language]}</Button>
-                <Button onClick={openModalHowToPlay} id="btn-how-to-play" className="btn w-full">{HOWTOPLAY.TITLE[language]}</Button>
-              </>
+              <div className='flex flex-col items-center justify-center gap-4  h-2/3'>
+                <Button onClick={handleGoogleLogin} id="SignInGoogle" className="btn rounded-xl border-2 border-gray-10 w-1/2 mt-4"><FcGoogle className="text-black text-3xl " />{AUTH_CONSTANTS.SIGN_IN[language]}</Button>
+                <Button onClick={openModalHowToPlay} id="btn-how-to-play-isloggin" className="btn rounded-xl border-2 border-gray-10 w-1/2">{HOWTOPLAY.TITLE[language]}</Button>
+              </div>
             )}
-            <div>
+            {isLoggedIn && (<>
+              <div className="w-full flex-1 bg-yellow-70 text-gray-10">asd</div>
 
-              <GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
+              <Button onClick={openModalHowToPlay} id="btn-how-to-play-loggin" className="btn w-2/5 mt-auto">{HOWTOPLAY.TITLE[language]}</Button>
 
-            </div>
+            </>)}
 
           </div>
-
+          <GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
         </nav>
 
-        <section className="bg-red-20 w-full">
+        <section className="bg-gray-90 w-full  my-10">
           section
         </section>
-        <aside className="bg-blue-20 w-full">
-          aside
+
+
+        <aside className=" w-full  my-10 flex justify-center bg-gray-90 rounded-l-xl shadow-lg border-2  border-gray-10">
+
+          <ScoreAndWinTabs />
+
+
+
+
         </aside>
+
       </div>
-
-
 
       <footer className="p-2 flex gap-2 justify-center items-center bg-gray-90 text-blue-20">
         <span>{FOOTER.COPYRIGHT[language]}</span>
         <span>{FOOTER.DEVELOPED_BY[language]}</span>
       </footer>
+
     </main>
   );
 }
