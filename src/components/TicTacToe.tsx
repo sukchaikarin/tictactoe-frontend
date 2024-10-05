@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 const TicTacToe: React.FC = () => {
   const initialBoard = Array(3).fill(null).map(() => Array(3).fill(null));
-  const [board, setBoard] = useState<string[][]>(initialBoard);
+  const [board, setBoard] = useState<(string | null)[][]>(initialBoard);
   const [isXNext, setIsXNext] = useState<boolean>(true);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
+  const [difficulty, setDifficulty] = useState<string>('easy'); // Difficulty state
 
   const handleClick = (rowIndex: number, colIndex: number) => {
     if (!gameStarted || board[rowIndex][colIndex] || calculateWinner(board) || !isXNext) return;
@@ -21,18 +22,59 @@ const TicTacToe: React.FC = () => {
 
   const botMove = () => {
     if (!isXNext) {
-      const bestMove = findBestMove(board);
-      const newBoard = board.map((row, rIdx) =>
-        row.map((cell, cIdx) =>
-          rIdx === bestMove.i && cIdx === bestMove.j ? 'O' : cell // Bot plays 'O'
-        )
-      );
+      let newBoard;
+      if (difficulty === 'easy') {
+        newBoard = makeRandomMove(board);
+      } else if (difficulty === 'medium') {
+        newBoard = makeBlockingMove(board) || makeRandomMove(board);
+      } else {
+        const bestMove = findBestMove(board);
+        newBoard = board.map((row, rIdx) =>
+          row.map((cell, cIdx) =>
+            rIdx === bestMove.i && cIdx === bestMove.j ? 'O' : cell
+          )
+        );
+      }
       setBoard(newBoard);
-      setIsXNext(true); // Switch back to player's turn after bot's move
+      setIsXNext(true); // Switch back to player's turn
     }
   };
 
-  const findBestMove = (newBoard: string[][]) => {
+  // Random move for Easy difficulty
+  const makeRandomMove = (newBoard: (string | null)[][]) => {
+    const availableMoves = [];
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (!newBoard[i][j]) availableMoves.push({ i, j });
+      }
+    }
+    const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+    return newBoard.map((row, rIdx) =>
+      row.map((cell, cIdx) =>
+        rIdx === randomMove.i && cIdx === randomMove.j ? 'O' : cell
+      )
+    );
+  };
+
+  // Blocking move for Medium difficulty
+  const makeBlockingMove = (newBoard: (string | null)[][]) => {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (!newBoard[i][j]) {
+          // Try placing 'X' to see if it blocks
+          newBoard[i][j] = 'X';
+          if (calculateWinner(newBoard) === 'X') {
+            newBoard[i][j] = 'O'; // Block
+            return newBoard;
+          }
+          newBoard[i][j] = null; // Reset
+        }
+      }
+    }
+    return null;
+  };
+
+  const findBestMove = (newBoard: (string | null)[][]) => {
     let bestScore = -Infinity;
     let move = { i: 0, j: 0 };
 
@@ -41,7 +83,6 @@ const TicTacToe: React.FC = () => {
         if (!newBoard[i][j]) {
           newBoard[i][j] = 'O';
           const score = minimax(newBoard, 0, false);
-          //@ts-ignore
           newBoard[i][j] = null;
           if (score > bestScore) {
             bestScore = score;
@@ -53,7 +94,7 @@ const TicTacToe: React.FC = () => {
     return move;
   };
 
-  const minimax = (newBoard: string[][], depth: number, isMaximizing: boolean) => {
+  const minimax = (newBoard: (string | null)[][], depth: number, isMaximizing: boolean) => {
     const winner = calculateWinner(newBoard);
     if (winner === 'O') return 10 - depth;
     if (winner === 'X') return depth - 10;
@@ -66,7 +107,6 @@ const TicTacToe: React.FC = () => {
           if (!newBoard[i][j]) {
             newBoard[i][j] = 'O';
             const score = minimax(newBoard, depth + 1, false);
-            //@ts-ignore
             newBoard[i][j] = null;
             bestScore = Math.max(score, bestScore);
           }
@@ -80,7 +120,6 @@ const TicTacToe: React.FC = () => {
           if (!newBoard[i][j]) {
             newBoard[i][j] = 'X';
             const score = minimax(newBoard, depth + 1, true);
-            //@ts-ignore
             newBoard[i][j] = null;
             bestScore = Math.min(score, bestScore);
           }
@@ -90,7 +129,7 @@ const TicTacToe: React.FC = () => {
     }
   };
 
-  const calculateWinner = (squares: string[][]): string | null => {
+  const calculateWinner = (squares: (string | null)[][]): string | null => {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -115,7 +154,7 @@ const TicTacToe: React.FC = () => {
     return null;
   };
 
-  const isBoardFull = (squares: string[][]): boolean => {
+  const isBoardFull = (squares: (string | null)[][]): boolean => {
     return squares.every(row => row.every(cell => cell !== null));
   };
 
@@ -144,43 +183,49 @@ const TicTacToe: React.FC = () => {
         <h2 className="text-center text-2xl mb-4">
           {winner ? `Winner: ${winner}` : isTie ? 'Tie' : `Next Player: ${isXNext ? 'X' : 'O'}`}
         </h2>
+
+        {/* Difficulty Selection */}
+        <div className="mb-4 text-center">
+          <label htmlFor="difficulty" className="mr-2">Select Difficulty:</label>
+          <select
+            id="difficulty"
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+            className="border border-gray-300 rounded px-2 py-1"
+            disabled={gameStarted} // Disable during the game
+          >
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
         <div className="grid grid-cols-3 gap-2">
           {board.map((row, rowIndex) =>
             row.map((cell, colIndex) => (
               <button
                 key={`${rowIndex}-${colIndex}`}
-                className={`h-24 w-24 flex items-center justify-center text-6xl font-bold 
+                className={`h-24 w-24 flex items-center justify-center text-4xl font-bold 
                             ${cell ? 'text-gray-500 bg-gray-200' : 'text-blue-600 bg-white'} 
                             border-2 border-gray-400 rounded-lg transition duration-200 transform hover:scale-105`}
                 onClick={() => handleClick(rowIndex, colIndex)}
-                disabled={!gameStarted || !!cell || !!winner}
-                style={{ cursor: !isXNext ? 'not-allowed' : 'pointer' }}
+                disabled={!!cell || !!winner || !gameStarted} // Disable if cell is filled, game won, or not started
               >
                 {cell}
               </button>
             ))
           )}
         </div>
-        <div className="flex justify-center mt-4">
-          {!gameStarted ? (
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
-              onClick={handleStartGame}
-            >
-              Start Game
-            </button>
-          ) : (
-            <button
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
-              onClick={() => {
-                setBoard(initialBoard);
-                setGameStarted(false);
-              }}
-              disabled={!canResetGame}
-            >
-              Reset Game
-            </button>
-          )}
+
+        {/* Start/Reset Button */}
+        <div className="mt-4 text-center">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+            onClick={handleStartGame}
+            disabled={!canResetGame && gameStarted} // Disable button if game is already ongoing
+          >
+            {canResetGame ? 'Reset Game' : 'Start Game'}
+          </button>
         </div>
       </div>
     </div>
