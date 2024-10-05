@@ -9,6 +9,7 @@ import GamesRules from '@/components/modals/GamesRules';
 import { Button } from 'react-daisyui';
 import { Table } from "antd";
 import ScoreAndWinTabs from '@/components/ScoreAndWinTabs';
+import TicTacToe from '@/components/TicTacToe';
 
 // ตัวอย่างข้อมูล
 const dataSource = [
@@ -173,14 +174,25 @@ export default function Home() {
           <GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
         </nav>
 
-        <section className="bg-gray-90 w-full  my-10">
-          section
-        </section>
+        <section className="w-full my-10 flex flex-col bg-gray-90 rounded-xl shadow-lg border-2  border-gray-10">
+  {/* Div 2/3 */}
+  <div className="h-2/3 p-4 bg-green-50 m-2">
+    {/* เนื้อหาสำหรับ ตารางเกม XO */}
+<TicTacToe/>
+    Div 2/3
+  </div>
+  
+  {/* Div 1/3 */}
+  <div className="h-1/3 p-4 bg-red-70 m-2">
+    {/* เนื้อหาสำหรับ div คะแนนในเกมนั้น รวมถึงปุ่มกดเริ่ม start game*/}
+    Div 1/3
+  </div>
+</section>
 
 
         <aside className=" w-full  my-10 flex justify-center bg-gray-90 rounded-l-xl shadow-lg border-2  border-gray-10">
 
-          <ScoreAndWinTabs />
+          <ScoreAndWinTabs language={language} />
 
 
 
@@ -190,7 +202,7 @@ export default function Home() {
       </div>
 
       <footer className="p-2 flex gap-2 justify-center items-center bg-gray-90 text-blue-20">
-        <span>{FOOTER.COPYRIGHT[language]}</span>
+        {/* <span>{FOOTER.COPYRIGHT[language]}</span> */}
         <span>{FOOTER.DEVELOPED_BY[language]}</span>
       </footer>
 

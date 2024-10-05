@@ -33,12 +33,12 @@ export const AUTH_CONSTANTS = {
 
 export const FOOTER = {
   COPYRIGHT: {
-    en: "Copyright © 2024 tictactoe-frontend-smoky.vercel.app. All rights reserved.",
-    th: "ลิขสิทธิ์ © 2024 tictactoe-frontend-smoky.vercel.app สงวนลิขสิทธิ์ทั้งหมด",
+    en: "Copyright © 2024 tictactoe-frontend-smoky.vercel.app, ",
+    th: "ลิขสิทธิ์ © 2024 tictactoe-frontend-smoky.vercel.app,",
   },
   DEVELOPED_BY: {
-    en: "Developed by Karin Sukchai.",
-    th: "พัฒนาโดย กรินทร์ สุขชัย.",
+    en: "Developed by Karin Sukchai, Tel.098-647-7922, E-mail: karinsukchai.official@gmail.com",
+    th: "พัฒนาโดย กรินทร์ สุขชัย, โทร.098-647-7922, อีเมลล์: karinsukchai.official@gmail.com",
   },
 };
 
@@ -47,12 +47,37 @@ export const HOWTOPLAY = {
     en: "How to play",
     th: "วิธีการเล่น",
   },
-MODALTITLE:{
-  en:"How to play",
-  th:"วิธีการเล่น",
-}
 
 };
+
+export const STATISTICLABEL = {
+  gameStatistics: {
+    en: "Game Statistics",
+    th: "สถิติเกม",
+  },
+  topScorers: {
+    en: "Top Scorers",
+    th: "คะแนนสูงสุด",
+  },
+  topWinners: {
+    en: "Top Winners",
+    th: "ผู้ชนะติดต่อกัน",
+  },
+  name: {
+    en: "Name",
+    th: "ชื่อ",
+  },
+  score: {
+    en: "Score",
+    th: "คะแนน",
+  },
+  consecutiveWins: {
+    en: "Consecutive Wins",
+    th: "จำนวนครั้งที่ชนะติดต่อกัน",
+  },
+};
+
+
 
 export const GAME_RULES = {
   TITLE: {

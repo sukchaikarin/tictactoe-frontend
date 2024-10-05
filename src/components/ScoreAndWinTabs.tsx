@@ -1,7 +1,7 @@
-// ScoreAndWinTabs.tsx
 import React, { useState } from 'react';
 import { Tabs, Table, Typography } from 'antd';
 import CustomPagination from './CustomPagination';
+import { STATISTICLABEL } from '../constants/constants'; // นำเข้า STATISTICLABEL
 
 const { TabPane } = Tabs;
 const { Title } = Typography;
@@ -36,10 +36,15 @@ const topWinners: TopWinner[] = [
   { key: '5', name: 'Kyle', consecutiveWins: 2 },
 ];
 
-const ScoreAndWinTabs: React.FC = () => {
+// รับ props language
+interface ScoreAndWinTabsProps {
+  language: 'en' | 'th'; // ระบุชนิดข้อมูลสำหรับภาษา
+}
+
+const ScoreAndWinTabs: React.FC<ScoreAndWinTabsProps> = ({ language }) => {
   const [scorerPage, setScorerPage] = useState(1);
   const [winnerPage, setWinnerPage] = useState(1);
-  const pageSize = 3; // จำนวนข้อมูลต่อหน้า
+  const pageSize = 5; // จำนวนข้อมูลต่อหน้า
 
   // ฟังก์ชันจัดการการเปลี่ยนหน้า
   const handleScorerPageChange = (page: number) => {
@@ -52,14 +57,14 @@ const ScoreAndWinTabs: React.FC = () => {
 
   // คอลัมน์สำหรับคะแนนสูงสุด
   const columnsScorers = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Score', dataIndex: 'score', key: 'score' },
+    { title: STATISTICLABEL.name[language], dataIndex: 'name', key: 'name', width: '50%' }, // ปรับขนาด
+    { title: STATISTICLABEL.score[language], dataIndex: 'score', key: 'score', width: '50%' }, // ปรับขนาด
   ];
 
   // คอลัมน์สำหรับผู้ชนะติดต่อกัน
   const columnsWinners = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Consecutive Wins', dataIndex: 'consecutiveWins', key: 'consecutiveWins' },
+    { title: STATISTICLABEL.name[language], dataIndex: 'name', key: 'name', width: '50%' }, // ปรับขนาด
+    { title: STATISTICLABEL.consecutiveWins[language], dataIndex: 'consecutiveWins', key: 'consecutiveWins', width: '50%' }, // ปรับขนาด
   ];
 
   // แบ่งข้อมูลตามหน้า
@@ -68,47 +73,47 @@ const ScoreAndWinTabs: React.FC = () => {
 
   return (
     <div className="p-5 bg-white rounded-lg shadow-lg w-full mt-10">
-      <Title level={2} className="text-center text-xl mb-4">Game Statistics</Title>
+      <Title level={2} className="text-center text-xl mb-4">{STATISTICLABEL.gameStatistics[language]}</Title>
       <Tabs defaultActiveKey="1" className="mb-4">
-      <TabPane tab="Top Scorers" key="1">
-  <div className="flex flex-col">
-    <Table
-      dataSource={paginatedScorers}
-      columns={columnsScorers}
-      pagination={false}
-      bordered
-      className="rounded-lg overflow-hidden"
-    />
-    <div className="flex justify-end mt-4">
-      <CustomPagination
-        current={scorerPage}
-        total={topScorers.length}
-        pageSize={pageSize}
-        onPageChange={handleScorerPageChange}
-      />
-    </div>
-  </div>
-</TabPane>
+        <TabPane tab={STATISTICLABEL.topScorers[language]} key="1">
+          <div className="flex flex-col">
+            <Table
+              dataSource={paginatedScorers}
+              columns={columnsScorers}
+              pagination={false}
+              bordered
+              className="rounded-lg overflow-hidden"
+            />
+            <div className="flex justify-end mt-4">
+              <CustomPagination
+                current={scorerPage}
+                total={topScorers.length}
+                pageSize={pageSize}
+                onPageChange={handleScorerPageChange}
+              />
+            </div>
+          </div>
+        </TabPane>
 
-        <TabPane tab="Top Winners" key="2">
-  <div className="flex flex-col">
-    <Table
-      dataSource={paginatedWinners}
-      columns={columnsWinners}
-      pagination={false}
-      bordered
-      className="rounded-lg overflow-hidden"
-    />
-    <div className="flex justify-end mt-4">
-      <CustomPagination
-        current={winnerPage}
-        total={topWinners.length}
-        pageSize={pageSize}
-        onPageChange={handleWinnerPageChange}
-      />
-    </div>
-  </div>
-</TabPane>
+        <TabPane tab={STATISTICLABEL.topWinners[language]} key="2">
+          <div className="flex flex-col">
+            <Table
+              dataSource={paginatedWinners}
+              columns={columnsWinners}
+              pagination={false}
+              bordered
+              className="rounded-lg overflow-hidden"
+            />
+            <div className="flex justify-end mt-4">
+              <CustomPagination
+                current={winnerPage}
+                total={topWinners.length}
+                pageSize={pageSize}
+                onPageChange={handleWinnerPageChange}
+              />
+            </div>
+          </div>
+        </TabPane>
       </Tabs>
     </div>
   );

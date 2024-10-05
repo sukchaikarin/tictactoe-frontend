@@ -27,7 +27,7 @@ const GamesRules: React.FC<GamesRulesProps> = ({ isOpen, language, closeModal })
                 <h2 className="font-bold text-lg text-gray-800">
                     {GAME_RULES.TITLE[language]}
                 </h2>
-                <button className="btn btn-circle btn-ghost" onClick={closeModal}>
+                <button className="btn btn-square btn-ghost" onClick={closeModal}>
                     ✖
                 </button>
             </Modal.Header>
