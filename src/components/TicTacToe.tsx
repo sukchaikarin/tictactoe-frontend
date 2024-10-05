@@ -7,11 +7,11 @@ const TicTacToe: React.FC = () => {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
 
   const handleClick = (rowIndex: number, colIndex: number) => {
-    if (!gameStarted || board[rowIndex][colIndex] || calculateWinner(board)) return;
+    if (!gameStarted || board[rowIndex][colIndex] || calculateWinner(board) || !isXNext) return;
 
     const newBoard = board.map((row, rIdx) =>
       row.map((cell, cIdx) =>
-        rIdx === rowIndex && cIdx === colIndex ? (isXNext ? 'X' : 'O') : cell
+        rIdx === rowIndex && cIdx === colIndex ? 'X' : cell
       )
     );
 
@@ -30,7 +30,14 @@ const TicTacToe: React.FC = () => {
 
       if (availableMoves.length > 0) {
         const randomMove = availableMoves[Math.floor(Math.random() * availableMoves.length)];
-        handleClick(randomMove.i, randomMove.j);
+        const newBoard = board.map((row, rIdx) =>
+          row.map((cell, cIdx) =>
+            rIdx === randomMove.i && cIdx === randomMove.j ? 'O' : cell // Assuming bot plays 'O'
+          )
+        );
+
+        setBoard(newBoard);
+        setIsXNext(true); // Switch back to player's turn after bot's move
       }
     }
   };
@@ -81,7 +88,6 @@ const TicTacToe: React.FC = () => {
     if (gameStarted && !isXNext && !winner) {
       const timer = setTimeout(() => {
         botMove();
-        setIsXNext(true); // Switch back to player after bot's turn
       }, 500); // 500ms delay for the bot's move
       return () => clearTimeout(timer);
     }
@@ -97,11 +103,12 @@ const TicTacToe: React.FC = () => {
           row.map((cell, colIndex) => (
             <button
               key={`${rowIndex}-${colIndex}`}
-              className={`h-24 w-24 flex items-center justify-center text-4xl font-bold 
+              className={`h-24 w-24 flex items-center justify-center text-6xl font-bold 
                           ${cell ? 'text-gray-500 bg-gray-200' : 'text-blue-600 bg-white'} 
                           border-2 border-gray-400 rounded-lg transition duration-200 transform hover:scale-105`}
               onClick={() => handleClick(rowIndex, colIndex)}
               disabled={!gameStarted || !!cell || !!winner} // Disable if game hasn't started or cell is occupied or there's a winner
+              style={{ cursor: !isXNext ? 'not-allowed' : 'pointer' }} // Set cursor based on turn
             >
               {cell}
             </button>
