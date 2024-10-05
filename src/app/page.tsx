@@ -1,14 +1,11 @@
 "use client";
-import Image from "next/image";
+
 import { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { AUTH_CONSTANTS, COPYRIGHT  } from '../constants/constants';
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State to manage login status
-  const handleSignIn = () => {
-    console.log(AUTH_CONSTANTS.SIGN_IN_WITH_GOOGLE);
-    // เพิ่ม logic การเซ็นอินด้วย Google ที่นี่
-  };
+ 
   const handleGoogleLogin = () => {
     // Change this URL to your NestJS API for Google login
     //window.location.href = "http://localhost:3001/v1/auth/google/";
