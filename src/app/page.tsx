@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Home() {
   const handleGoogleLogin = () => {
     // เปลี่ยน URL นี้ให้เป็น URL ของ NestJS API สำหรับการเข้าสู่ระบบ Googlse
-   // window.location.href = "http://localhost:3001/v1/auth/google/"; 
+    //window.location.href = "http://localhost:3001/v1/auth/google/"; 
    window.location.href = "https://tictactoe-backend-gsjf.onrender.com/v1/auth/google/";
   };
 
