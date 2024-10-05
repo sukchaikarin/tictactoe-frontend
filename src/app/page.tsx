@@ -127,7 +127,7 @@ export default function Home() {
       <div className="flex  flex-1 my-10  justify-items-center justify-between gap-10  h-full ">
 
         <nav className="gap-10 w-full flex flex-col  my-10 items-center relative bg-gray-90 rounded-r-xl shadow-lg border-2  border-gray-10">
-          <div className="join scale-75 absolute top-1 right-1 shadow-md border-2 border-gray-10 rounded-xl">
+          <div className="join scale-75 absolute top-1 left-1 shadow-md border-2 border-gray-10 rounded-xl">
             <input
               id="radioENG"
               className="join-item btn"
@@ -174,20 +174,19 @@ export default function Home() {
           <GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
         </nav>
 
-        <section className="w-full my-10 flex flex-col bg-gray-90 rounded-xl shadow-lg border-2  border-gray-10">
-  {/* Div 2/3 */}
-  <div className="h-2/3 p-4 bg-green-50 m-2">
-    {/* เนื้อหาสำหรับ ตารางเกม XO */}
-<TicTacToe/>
-    Div 2/3
-  </div>
-  
-  {/* Div 1/3 */}
-  <div className="h-1/3 p-4 bg-red-70 m-2">
-    {/* เนื้อหาสำหรับ div คะแนนในเกมนั้น รวมถึงปุ่มกดเริ่ม start game*/}
-    Div 1/3
-  </div>
-</section>
+        <section className="w-full my-10 flex flex-col justify-center bg-gray-90 rounded-xl shadow-lg border-2  border-gray-10">
+          {/* Div 2/3 */}
+          {/* เนื้อหาสำหรับ ตารางเกม XO */}
+          <TicTacToe />
+
+
+
+          {/* Div 1/3 */}
+          <div className="h-1/3 p-4 bg-red-70 m-2">
+            {/* เนื้อหาสำหรับ div คะแนนในเกมนั้น รวมถึงปุ่มกดเริ่ม start game*/}
+            Div 1/3
+          </div>
+        </section>
 
 
         <aside className=" w-full  my-10 flex justify-center bg-gray-90 rounded-l-xl shadow-lg border-2  border-gray-10">

@@ -94,47 +94,49 @@ const TicTacToe: React.FC = () => {
   }, [isXNext, board, gameStarted, winner]);
 
   return (
-    <div className="flex-grow p-4 bg-green-50 m-2 rounded-lg shadow-md">
-      <h2 className="text-center text-2xl mb-4">
-        {winner ? `Winner: ${winner}` : isTie ? 'Tie' : `Next Player: ${isXNext ? 'X' : 'O'}`}
-      </h2>
-      <div className="grid grid-cols-3 gap-2">
-        {board.map((row, rowIndex) =>
-          row.map((cell, colIndex) => (
+    <div className="flex items-center justify-center h-2/3 bg-yellow-20">
+      <div className="flex-grow p-4 bg-white m-2 rounded-lg shadow-md max-w-md">
+        <h2 className="text-center text-2xl mb-4">
+          {winner ? `Winner: ${winner}` : isTie ? 'Tie' : `Next Player: ${isXNext ? 'X' : 'O'}`}
+        </h2>
+        <div className="grid grid-cols-3 gap-2">
+          {board.map((row, rowIndex) =>
+            row.map((cell, colIndex) => (
+              <button
+                key={`${rowIndex}-${colIndex}`}
+                className={`h-24 w-24 flex items-center justify-center text-6xl font-bold 
+                            ${cell ? 'text-gray-500 bg-gray-200' : 'text-blue-600 bg-white'} 
+                            border-2 border-gray-400 rounded-lg transition duration-200 transform hover:scale-105`}
+                onClick={() => handleClick(rowIndex, colIndex)}
+                disabled={!gameStarted || !!cell || !!winner} // Disable if game hasn't started or cell is occupied or there's a winner
+                style={{ cursor: !isXNext ? 'not-allowed' : 'pointer' }} // Set cursor based on turn
+              >
+                {cell}
+              </button>
+            ))
+          )}
+        </div>
+        <div className="flex justify-center mt-4">
+          {!gameStarted ? (
             <button
-              key={`${rowIndex}-${colIndex}`}
-              className={`h-24 w-24 flex items-center justify-center text-6xl font-bold 
-                          ${cell ? 'text-gray-500 bg-gray-200' : 'text-blue-600 bg-white'} 
-                          border-2 border-gray-400 rounded-lg transition duration-200 transform hover:scale-105`}
-              onClick={() => handleClick(rowIndex, colIndex)}
-              disabled={!gameStarted || !!cell || !!winner} // Disable if game hasn't started or cell is occupied or there's a winner
-              style={{ cursor: !isXNext ? 'not-allowed' : 'pointer' }} // Set cursor based on turn
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
+              onClick={handleStartGame}
             >
-              {cell}
+              Start Game
             </button>
-          ))
-        )}
-      </div>
-      <div className="flex justify-center mt-4">
-        {!gameStarted ? (
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
-            onClick={handleStartGame}
-          >
-            Start Game
-          </button>
-        ) : (
-          <button
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
-            onClick={() => {
-              setBoard(initialBoard);
-              setGameStarted(false); // Reset the game state to false
-            }}
-            disabled={!canResetGame} // Disable if there's no winner or tie
-          >
-            Reset Game
-          </button>
-        )}
+          ) : (
+            <button
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600"
+              onClick={() => {
+                setBoard(initialBoard);
+                setGameStarted(false); // Reset the game state to false
+              }}
+              disabled={!canResetGame} // Disable if there's no winner or tie
+            >
+              Reset Game
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
