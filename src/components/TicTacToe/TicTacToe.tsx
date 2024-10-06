@@ -102,7 +102,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                             {row.map((cell, colIndex) => (
                                 <Col key={colIndex} span={8} className='w-full h-full p-1'>
                                     <Button
-                                        className="w-full min-h-16 h-full bg-orange-80 disabled:text-gray-10"
+                                        className="w-full min-h-28 h-full bg-orange-80 disabled:text-gray-10"
                                         type="dashed"
                                         block
                                         onClick={() => handleClick(rowIndex, colIndex)}
