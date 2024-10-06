@@ -83,7 +83,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
 
     return (
         <div className="flex items-center w-full justify-center h-full text-gray-10">
-            <div className="w-full flex flex-col gap-4 h-full justify-center items-center">
+            <div className="w-4/5 flex flex-col gap-4 h-full justify-center items-center ">
                 <div id="turnPlay" className="flex justify-center items-center mt-2 p-6 text-2xl h-8 w-full text-center">
                     {gameStarted && (
                         winner ? (
@@ -96,13 +96,13 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                     )}
                 </div>
 
-                <div className="ml-4 flex flex-col w-3/4 flex-1 justify-center items-center ">
+                <div className=" flex  flex-col w-full justify-center  h-full items-center ">
                     {board.map((row, rowIndex) => (
-                        <Row key={rowIndex} gutter={[16, 16]} className='w-full min-h-24 h-full'>
+                        <Row key={rowIndex} gutter={[16, 16]} className='flex  justify-center w-full   h-full'>
                             {row.map((cell, colIndex) => (
-                                <Col key={colIndex} span={8} className='w-full min-h-24 h-full p-1'>
+                                <Col key={colIndex} xs={4} sm={4} md={8} lg={8} className='flex justify-center w-full  h-full p-1'>
                                     <Button
-                                        className="w-full min-h-24 h-full bg-orange-80 disabled:text-gray-10"
+                                        className="w-full  h-full bg-orange-80 disabled:text-gray-10"
                                         type="dashed"
                                         block
                                         onClick={() => handleClick(rowIndex, colIndex)}
