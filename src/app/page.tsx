@@ -53,12 +53,12 @@ export default function Home() {
           closeModalHowToPlay={closeModalHowToPlay}
         />
 
-        <section className="w-full my-10 flex flex-col  justify-center rounded-xl shadow-lg shadow-gray-10 ">
+        <section className="w-full my-10 flex flex-col  justify-center shadow-md   shadow-gray-10 ">
           <TicTacToe language={language} />
           <div className="h-1/3 p-4 bg-red-70 m-2">Div 1/3</div>
         </section>
 
-        <aside className="w-full my-10 flex justify-center  rounded-l-xl shadow-lg border-2 border-gray-10">
+        <aside className="w-full my-10 flex justify-center  shadow-md   shadow-gray-10 ">
           <ScoreAndWinTabs language={language} />
         </aside>
       </div>

@@ -28,13 +28,13 @@ const NavBar: React.FC<NavBarProps> = ({
   closeModalHowToPlay,
 }) => {
   return (
-    <nav className="gap-10 w-full flex flex-col my-10 items-center relative bg-gray-90 rounded-r-xl shadow-lg shadow-gray-10">
+    <nav className="gap-10 w-full flex flex-col my-10 items-center relative bg-gray-90  shadow-md shadow-gray-10">
       {/* นำ component LanguageSelector มาใช้ */}
       <LanguageSelector language={language} toggleLanguage={toggleLanguage} />
 
       <div className="w-8/10 h-1/3 flex items-center m-5 mt-10">
         <Image
-          className="rounded-xl shadow-lg shadow-gray-10"
+          className="rounded-md shadow-md shadow-gray-10"
           src="/logo/ox-games.webp"
           alt="Description of the image"
           width={500}
@@ -42,7 +42,7 @@ const NavBar: React.FC<NavBarProps> = ({
         />
       </div>
 
-      <div className="h-full w-full">
+      <div className="h-full w-full mb-4">
         {!isLoggedIn && (
           <div className="flex flex-col items-center justify-center gap-4 h-2/3 px-4">
             <Button
