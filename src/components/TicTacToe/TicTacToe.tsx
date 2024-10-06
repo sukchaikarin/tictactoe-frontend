@@ -98,11 +98,11 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
 
                 <div className="ml-4 flex flex-col w-3/4 flex-1 justify-center items-center ">
                     {board.map((row, rowIndex) => (
-                        <Row key={rowIndex} gutter={[16, 16]} className='w-full h-full'>
+                        <Row key={rowIndex} gutter={[16, 16]} className='w-full min-h-24 h-full'>
                             {row.map((cell, colIndex) => (
-                                <Col key={colIndex} span={8} className='w-full h-full p-1'>
+                                <Col key={colIndex} span={8} className='w-full min-h-24 h-full p-1'>
                                     <Button
-                                        className="w-full min-h-28 h-full bg-orange-80 disabled:text-gray-10"
+                                        className="w-full min-h-24 h-full bg-orange-80 disabled:text-gray-10"
                                         type="dashed"
                                         block
                                         onClick={() => handleClick(rowIndex, colIndex)}
