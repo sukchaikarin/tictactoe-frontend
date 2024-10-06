@@ -50,6 +50,38 @@ export const HOWTOPLAY = {
 
 };
 
+// constants.ts
+
+export const TicTacToeLabels = {
+  en: {
+      playerTurn: (isXNext: boolean) => (isXNext ? 'Your turn!' : 'Bot\'s turn!'),
+      winner: (winner: string | null) => (winner ? `${winner} wins!` : ''),
+      tie: 'It\'s a tie!',
+      startGame: 'Start Game',
+      resetGame: 'Reset Game',
+      selectDifficulty: 'Select Difficulty:',
+      difficultyOptions: {
+          easy: 'Easy',
+          medium: 'Normal',
+          hard: 'Expert'
+      }
+  },
+  th: {
+      playerTurn: (isXNext: boolean) => (isXNext ? 'ถึงตาคุณ!' : 'ถึงตาของบอท!'),
+      winner: (winner: string | null) => (winner ? `${winner} ชนะ!` : ''),
+      tie: 'เสมอ!',
+      startGame: 'เริ่มเกม',
+      resetGame: 'รีเซ็ตเกม',
+      selectDifficulty: 'เลือกความยาก:',
+      difficultyOptions: {
+          easy: 'ง่าย',
+          medium: 'ปานกลาง',
+          hard: 'ยาก'
+      }
+  }
+};
+
+
 export const STATISTICLABEL = {
   leaderBoard: {
     en: "Leader Board",
