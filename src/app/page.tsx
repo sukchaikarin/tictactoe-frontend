@@ -5,6 +5,7 @@ import { FOOTER } from "../constants/constants";
 import NavBar from "@/components/NavBar"; // นำเข้า NavBar component
 import ScoreAndWinTabs from "@/components/leaderboard/ScoreAndWinTabs";
 import TicTacToe from "@/components/TicTacToe/TicTacToe";
+import StreakDisplay from "@/components/TicTacToe/Trophy";
 
 export default function Home() {
   const [language, setLanguage] = useState<'en' | 'th'>('en');
@@ -58,7 +59,7 @@ export default function Home() {
 
         <section className="w-full my-4 flex flex-col  justify-center shadow-md   shadow-gray-10 ">
           <TicTacToe language={language} />
-          <div className="h-1/3 p-4 bg-red-70 m-2">Div 1/3</div>
+          <div className="h-1/3 p-4 bg-primary m-2 shadow-lg border-2 border-gray-10 rounded-lg"><StreakDisplay/></div>
         </section>
 
         <aside className="w-full my-4 flex justify-center  shadow-md   shadow-gray-10 ">
