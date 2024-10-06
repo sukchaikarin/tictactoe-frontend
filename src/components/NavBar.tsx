@@ -1,16 +1,18 @@
-// NavBar.tsx
 "use client";
 import React from "react";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import { AUTH_CONSTANTS, HOWTOPLAY } from "../constants/constants";
 import { Button } from "react-daisyui";
-import LanguageSelector from "@/components/langs/LanguageSelector"; // นำเข้า component
+import LanguageSelector from "@/components/langs/LanguageSelector"; // Import LanguageSelector component
 import { useUser } from "@/context/UserContext";
 import GamesRules from "./modals/GamesRules";
+import UserProfile from "@/components/UserProfile"; // Import the UserProfile component
+
 interface NavBarProps {
   language: 'en' | 'th';
   isLoggedIn: boolean;
+  setIsLoggedIn: (loggedIn: boolean) => void; 
   openModalHowToPlay: () => void;
   handleGoogleLogin: () => void;
   toggleLanguage: (lang: 'en' | 'th') => void;
@@ -23,19 +25,27 @@ const NavBar: React.FC<NavBarProps> = ({
   isLoggedIn,
   openModalHowToPlay,
   handleGoogleLogin,
+  setIsLoggedIn, 
   toggleLanguage,
   isModalHowToPlayOpen,
   closeModalHowToPlay,
 }) => {
+  const { user } = useUser(); // Accessing the user from context
 
-  const { user } = useUser();
- 
+  const signOut = () => {
+    // Remove token from localStorage
+    localStorage.removeItem("token");
+    
+    // Update isLoggedIn state
+    setIsLoggedIn(false);
+  };
+
   return (
-    <nav className="w-full flex flex-col my-4 items-center relative bg-gray-90  shadow-md shadow-gray-10">
-      {/* นำ component LanguageSelector มาใช้ */}
+    <nav className="w-full flex flex-col my-4 items-center relative bg-gray-90 shadow-md shadow-gray-10">
+      {/* Use LanguageSelector component */}
       <LanguageSelector language={language} toggleLanguage={toggleLanguage} />
-     
-      <div className="flex items-center mb-2 mt-14 bg-yellow-50">
+
+      <div className="flex items-center  mb-2 mt-14 bg-yellow-50">
         <Image
           className="rounded-md shadow-md shadow-gray-10"
           src="/logo/ox-games.webp"
@@ -46,7 +56,7 @@ const NavBar: React.FC<NavBarProps> = ({
         />
       </div>
 
-      <div className="h-full w-full mb-4">
+      <div className="flex flex-col items-center justify-center h-full w-full mb-4 ">
         {!isLoggedIn && (
           <div className="flex flex-col items-center justify-center gap-4 h-2/3 px-4">
             <Button
@@ -69,34 +79,27 @@ const NavBar: React.FC<NavBarProps> = ({
 
         {isLoggedIn && (
           <>
- {user ? (
-        <div className="flex  bg-green-60 p-6" >
-          
-          <Image 
-            src={user.picture} 
-            alt={`${user.name}'s profile`} 
-            width={80} // กำหนดความกว้างที่คุณต้องการ
-            height={80} // กำหนดความสูงที่คุณต้องการ
-            className="rounded-full m-3" // เพิ่มคลาสสำหรับการจัดรูปทรง
-          />
-<div className="bg-[#ddd] flex-1">
-
-<p className="text-gray-10 text-xl">Welcome, {user.name}!</p>
-</div>
-        </div>
-      ) : (
-        <p>Please log in</p>
-      )}
-
-
-            <div className="w-full flex-1 bg-yellow-70 text-gray-10">asd</div>
-            <Button onClick={openModalHowToPlay} id="btn-how-to-play-loggin" className="btn w-2/5 mt-auto">
-              {HOWTOPLAY.TITLE[language]}
-            </Button>
+            {user && (<UserProfile />)}
+            <div className="w-full flex flex-col items-center sm:flex-row-reverse  sm:justify-between p-8">
+            <Button
+  onClick={openModalHowToPlay}
+  id="btn-how-to-play-loggin"
+  className="btn w-48 bg-primary text-white font-bold py-3 rounded-lg shadow-lg hover:bg-yellow-70 transition duration-200"
+>
+  {HOWTOPLAY.TITLE[language]}
+</Button>
+            //ปุ่ม Sign out ตรงนี้ 
+            <Button
+  className="btn w-48 border-2 border-gray-70 text-gray-600 bg-transparent hover:bg-gray-100"
+  onClick={signOut}
+>
+  Sign out
+</Button>
+            </div>
+           
           </>
         )}
       </div>
-      
 
       <GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
     </nav>

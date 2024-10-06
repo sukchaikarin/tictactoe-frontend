@@ -21,6 +21,7 @@ export default function Home() {
   const toggleLanguage = (lang: 'en' | 'th') => {
     setLanguage(lang);
   };
+  
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -44,6 +45,7 @@ export default function Home() {
       <div className="flex flex-1 flex-col md:flex-row justify-items-center justify-between gap-4 h-full">
         {/* ใช้ NavBar ใหม่ที่สร้างขึ้น */}
         <NavBar 
+        setIsLoggedIn={setIsLoggedIn}
           language={language}
           isLoggedIn={isLoggedIn}
           openModalHowToPlay={openModalHowToPlay}
