@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { Card, Avatar, Typography, Row, Col, Skeleton } from 'antd';
 import { UserOutlined, TrophyOutlined, LineChartOutlined } from '@ant-design/icons';
@@ -11,6 +12,8 @@ const UserProfile: React.FC = () => {
 
     // Default values for formatted date and time
     const { date, time } = user ? formatDate(user.createdAt) : { date: "", time: "" };
+
+
 
     return (
         <Card

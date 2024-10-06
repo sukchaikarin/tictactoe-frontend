@@ -53,6 +53,7 @@ const NavBar: React.FC<NavBarProps> = ({
           width={500}
           height={300}
           priority
+          style={{ width: "100%", height: "auto" }} 
         />
       </div>
 
