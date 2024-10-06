@@ -6,7 +6,7 @@ import ox from "../../public/logo/ox-games.webp";
 import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY } from '../constants/constants';
 import GamesRules from '@/components/modals/GamesRules';
 import { Button } from 'react-daisyui';
-import ScoreAndWinTabs from '@/components/ScoreAndWinTabs';
+import ScoreAndWinTabs from '@/components/leaderboard/ScoreAndWinTabs';
 import TicTacToe from '@/components/TicTacToe/TicTacToe';
 import LanguageSelector from '@/components/LanguageSelector';  // นำเข้า component
 

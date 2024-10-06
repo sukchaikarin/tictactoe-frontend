@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, Table, Typography } from 'antd';
-import CustomPagination from './CustomPagination';
-import { STATISTICLABEL } from '../constants/constants'; // นำเข้า STATISTICLABEL
+import CustomPagination from '../CustomPagination';
+import { STATISTICLABEL } from '../../constants/constants'; // นำเข้า STATISTICLABEL
 
 const { Title } = Typography;
 
