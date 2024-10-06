@@ -299,24 +299,24 @@ export const GAME_RULES = {
     },
     example: [
       {
-        en: "Win against the bot for the first time → Gain 1 point.",
-        th: "ชนะบอทครั้งที่ 1 → ได้ 1 คะแนน.",
+        en: "Win against the bot for the first time → Gain 1 point (total 1 points).",
+        th: "ชนะบอทครั้งที่ 1 → ได้ 1 คะแนน (รวม 1 คะแนน).",
       },
       {
-        en: "Win against the bot for the second time → Gain 1 point.",
-        th: "ชนะบอทครั้งที่ 2 → ได้ 1 คะแนน.",
+        en: "Win against the bot for the second time → Gain 1 point (total 2 points).",
+        th: "ชนะบอทครั้งที่ 2 → ได้ 1 คะแนน (รวม 2 คะแนน).",
       },
       {
-        en: "Win against the bot for the third time → Gain 1 point + bonus 1 point (total 3 points).",
-        th: "ชนะบอทครั้งที่ 3 → ได้ 1 คะแนน + โบนัส 1 คะแนน (รวม 3 คะแนน).",
+        en: "Win against the bot for the third time → Gain 1 point + bonus 1 point (total 4 points).",
+        th: "ชนะบอทครั้งที่ 3 → ได้ 1 คะแนน + โบนัส 1 คะแนน (รวม 4 คะแนน).",
       },
       {
-        en: "Lose against the bot → Lose 1 point (total 2 points).",
-        th: "แพ้บอท → เสีย 1 คะแนน (รวม 2 คะแนน).",
+        en: "Lose against the bot → Lose 1 point (total 3 points).",
+        th: "แพ้บอท → เสีย 1 คะแนน (รวม 3 คะแนน).",
       },
       {
-        en: "Draw with the bot → No score change (still 2 points).",
-        th: "เสมอกับบอท → ไม่มีการเปลี่ยนแปลงคะแนน (ยังคง 2 คะแนน).",
+        en: "Draw with the bot → No score change (still 3 points).",
+        th: "เสมอกับบอท → ไม่มีการเปลี่ยนแปลงคะแนน (ยังคง 3 คะแนน).",
       },
     ],
   },
