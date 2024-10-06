@@ -52,7 +52,7 @@ const GamesRules: React.FC<GamesRulesProps> = ({ isOpen, language, closeModal })
                     // แสดง Skeleton ขณะโหลด
                     <>
                         <Skeleton active paragraph={{ rows: 4 }} />
-                        <Skeleton active paragraph={{ rows: 3 }} />
+                        <Skeleton active paragraph={{ rows: 4 }} />
                         <Skeleton active paragraph={{ rows: 4 }} />
                     </>
                 ) : (

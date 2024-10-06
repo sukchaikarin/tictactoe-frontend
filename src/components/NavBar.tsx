@@ -6,8 +6,8 @@ import { FcGoogle } from "react-icons/fc";
 import { AUTH_CONSTANTS, HOWTOPLAY } from "../constants/constants";
 import { Button } from "react-daisyui";
 import LanguageSelector from "@/components/langs/LanguageSelector"; // นำเข้า component
-import GamesRules from "@/components/modals/GamesRules";
 import { useUser } from "@/context/UserContext";
+import GamesRules from "./modals/GamesRules";
 interface NavBarProps {
   language: 'en' | 'th';
   isLoggedIn: boolean;
