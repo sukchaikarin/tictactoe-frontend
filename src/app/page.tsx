@@ -46,7 +46,7 @@ export default function Home() {
   return (
     <main className="flex flex-col min-h-screen justify-items-center bg-gray-90">
 
-      <div className="flex  flex-1 my-10  justify-items-center justify-between gap-10  h-full ">
+      <div className="flex  flex-1  justify-items-center justify-between gap-10  h-full ">
         <nav className="gap-10 w-full flex flex-col  my-10 items-center relative bg-gray-90 rounded-r-xl shadow-lg   shadow-gray-10">
 
           {/* นำ component LanguageSelector มาใช้ */}
