@@ -125,7 +125,9 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                         )
                     )}
                 </div>
-
+<div><p>this is a Score {gameStats.score}</p>
+<p>this is a Streak {gameStats.streak}</p>
+<p>this is a HighStreak {gameStats.highStreak}</p></div>
                 <div className="flex flex-col w-full justify-center h-full items-center ">
                     {board.map((row, rowIndex) => (
                         <Row key={rowIndex} gutter={[16, 16]} className='flex min-h-24 justify-center w-full h-full'>

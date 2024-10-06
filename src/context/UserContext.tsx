@@ -2,6 +2,7 @@
 import { jwtDecode } from 'jwt-decode';
 import { User, UserService } from "@/_service/users";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { GameplayService } from '@/_service/gameplay';
 
 
 // ประเภทข้อมูล User
@@ -16,12 +17,32 @@ interface UserContextType {
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   gameStats: {
     score: number; // เก็บคะแนน
-    streak: number; // เก็บจำนวนผลชนะติดต่อกัน
+    streak: number;
+    highStreak: number; // เก็บจำนวนผลชนะติดต่อกัน
   };
   win: () => void; // ฟังก์ชันชนะ
   draw: () => void; // ฟังก์ชันเสมอ
   lose: () => void; // ฟังก์ชันแพ้
 }
+
+interface Message {
+  en: string;
+  th: string;
+}
+// แสดงข้อมูลการตอบสนอง
+interface IncrementResponseData {
+  streakMessage: Message;
+  scoresMessage: Message; // เปลี่ยนชื่อเป็น scoresMessage เพื่อให้ตรงกับข้อมูลที่คุณใช้งาน
+  user: User;
+  maxWinsStreakUpdated: boolean;
+  newHighScores: boolean; // เพิ่มเพื่อแสดงว่ามีคะแนนสูงใหม่หรือไม่
+}
+
+interface DecrementResponseData {
+  message: Message;
+  user: User;
+}
+
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
@@ -40,9 +61,9 @@ interface UserProviderProps {
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null); // เปลี่ยนเป็น user เดียวที่เป็น object
   const [score, setScore] = useState<number>(0); // สถานะคะแนน
-  
+
   const [streak, setStreak] = useState<number>(0); // สถานะจำนวนผลชนะติดต่อกัน
-  
+  const [highStreak, setHighStreak] = useState<number>(0);
 
   useEffect(() => {
     const fetchUser = async (userId: string) => {
@@ -70,40 +91,62 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }, []);
 
   // ฟังก์ชันจัดการคะแนนเมื่อชนะ
-  const win = () => {
-    console.log(score)
-    setScore(prevScore => prevScore + 1); // เพิ่มคะแนน 1
-    setStreak(prevStreak => {
-      const newStreak = prevStreak + 1; // เพิ่ม streak 1
-      if (newStreak === 3) {
-        setScore(prevScore => prevScore + 1); // เพิ่มคะแนนอีก 1 ถ้า streak เท่ากับ 3
-        return 0; // รีเซ็ต streak เป็น 0
+  const win = async () => {
+    const newStreak = streak + 1;
+    const newHighStreak = highStreak + 1;
+    if (newStreak === 3) {
+      if (user) {
+        console.log(`this is user+2",${user._id} scores:${user.scores}`)
+        const responseBonus: IncrementResponseData = await GameplayService.incrementScoreByTwo(user._id, user.scores, newHighStreak)
+        console.log("🚀 ~ win ~ responseBonus:", responseBonus)
+        if (responseBonus) {
+          setUser(responseBonus.user);
+        }
       }
-      return newStreak;
-    });
-    console.log("🚀 ~ UserProvider ~ score:", score)
-    console.log("🚀 ~ UserProvider ~ streak:", streak)
+      setStreak(0);
+      setScore(prevScore => prevScore + 2);
+    } else {
+      if (user) {
+        const responseIncrement: IncrementResponseData = await GameplayService.incrementScore(user._id, user.scores, newHighStreak)
+
+        if (responseIncrement) {
+          setUser(responseIncrement.user);
+        }
+      }
+      setScore(prevScore => prevScore + 1);
+      setStreak(newStreak);
+    }
+    setHighStreak(prevScore => prevScore + 1);
+
   };
 
   // ฟังก์ชันจัดการคะแนนเมื่อเสมอ
   const draw = () => {
     setStreak(0); // รีเซ็ต streak เป็น 0
-    console.log("🚀 ~ UserProvider ~ score:", score)
-    console.log("🚀 ~ UserProvider ~ streak:", streak)
   };
 
   // ฟังก์ชันจัดการคะแนนเมื่อแพ้
-  const lose = () => {
+  const lose = async () => {
+    if (user) {
+    const responseDecrement: DecrementResponseData = await GameplayService.decrementScore(user._id)
+    if (responseDecrement) {
+      setUser(responseDecrement.user);
+    }
+    }
     setScore(prevScore => prevScore - 1); // ลดคะแนน 1
     setStreak(0); // รีเซ็ต streak เป็น 0
-    console.log("🚀 ~ UserProvider ~ score:", score)
-    console.log("🚀 ~ UserProvider ~ streak:", streak)
+    setHighStreak(0);
+   
+
+
+
   };
 
   // สร้างอ็อบเจกต์สำหรับเก็บค่าทั้งหมด
   const gameStats = {
     score,
     streak,
+    highStreak,
   };
 
   return (
