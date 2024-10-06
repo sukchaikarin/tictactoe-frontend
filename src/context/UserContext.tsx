@@ -128,17 +128,14 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   // ฟังก์ชันจัดการคะแนนเมื่อแพ้
   const lose = async () => {
     if (user) {
-    const responseDecrement: DecrementResponseData = await GameplayService.decrementScore(user._id)
-    if (responseDecrement) {
-      setUser(responseDecrement.user);
-    }
+      const responseDecrement: DecrementResponseData = await GameplayService.decrementScore(user._id)
+      if (responseDecrement) {
+        setUser(responseDecrement.user);
+      }
     }
     setScore(prevScore => prevScore - 1); // ลดคะแนน 1
     setStreak(0); // รีเซ็ต streak เป็น 0
     setHighStreak(0);
-   
-
-
 
   };
 
