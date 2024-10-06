@@ -1,6 +1,5 @@
 // src/_services/leaderboard.service.ts
 import axios from 'axios';
-import { User } from './users'; // นำเข้าข้อมูลประเภทผู้ใช้
 
 const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/v1'; // ปรับ URL ตามที่คุณต้องการ
 
