@@ -7,7 +7,7 @@ import { AUTH_CONSTANTS, HOWTOPLAY } from "../constants/constants";
 import { Button } from "react-daisyui";
 import LanguageSelector from "@/components/langs/LanguageSelector"; // นำเข้า component
 import GamesRules from "@/components/modals/GamesRules";
-
+import { useUser } from "@/context/UserContext";
 interface NavBarProps {
   language: 'en' | 'th';
   isLoggedIn: boolean;
@@ -27,18 +27,35 @@ const NavBar: React.FC<NavBarProps> = ({
   isModalHowToPlayOpen,
   closeModalHowToPlay,
 }) => {
+
+  const { user } = useUser();
+ 
   return (
-    <nav className="gap-10 w-full flex flex-col my-10 items-center relative bg-gray-90  shadow-md shadow-gray-10">
+    <nav className="gap-10 w-full flex flex-col my-4 items-center relative bg-gray-90  shadow-md shadow-gray-10">
       {/* นำ component LanguageSelector มาใช้ */}
       <LanguageSelector language={language} toggleLanguage={toggleLanguage} />
-
+      {user ? (
+        <div>
+          <p className="text-gray-10">Welcome, {user.name}!</p>
+          <Image 
+            src={user.picture} 
+            alt={`${user.name}'s profile`} 
+            width={50} // กำหนดความกว้างที่คุณต้องการ
+            height={50} // กำหนดความสูงที่คุณต้องการ
+            className="rounded-full" // เพิ่มคลาสสำหรับการจัดรูปทรง
+          />
+        </div>
+      ) : (
+        <p>Please log in</p>
+      )}
       <div className="w-8/10 h-1/3 flex items-center m-5 mt-10">
         <Image
           className="rounded-md shadow-md shadow-gray-10"
           src="/logo/ox-games.webp"
           alt="Description of the image"
           width={500}
-          height={100}
+          height={300}
+          priority
         />
       </div>
 
@@ -72,6 +89,8 @@ const NavBar: React.FC<NavBarProps> = ({
           </>
         )}
       </div>
+      
+
       <GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
     </nav>
   );
