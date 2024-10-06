@@ -96,7 +96,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                     )}
                 </div>
 
-                <div className="ml-4 flex flex-col w-3/4 flex-1 justify-center items-center bg-green-50">
+                <div className="ml-4 flex flex-col w-3/4 flex-1 justify-center items-center ">
                     {board.map((row, rowIndex) => (
                         <Row key={rowIndex} gutter={[16, 16]} className='w-full h-full'>
                             {row.map((cell, colIndex) => (
@@ -123,7 +123,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                         </Row>
                     ))}
                 </div>
-                <div className="mt-4 text-center">
+                <div className="flex flex-col mt-4 text-center">
                     <div className="mb-4 text-center">
                         <label htmlFor="difficulty" className="mr-2">{TicTacToeLabels[language].selectDifficulty}</label>
                         <Select
@@ -138,6 +138,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                             <Option value="hard" disabled>{TicTacToeLabels[language].difficultyOptions.hard}</Option>
                         </Select>
                     </div>
+                    <div className='flex items-center justify-center gap-2 '>
                     <Button
                         onClick={handleStartGame}
                         disabled={gameStarted}
@@ -153,6 +154,8 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                     >
                         {TicTacToeLabels[language].resetGame}
                     </Button>
+                    </div>
+                   
                 </div>
             </div>
         </div>
