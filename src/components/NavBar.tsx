@@ -12,7 +12,7 @@ import UserProfile from "@/components/UserProfile"; // Import the UserProfile co
 interface NavBarProps {
   language: 'en' | 'th';
   isLoggedIn: boolean;
-  setIsLoggedIn: (loggedIn: boolean) => void; 
+  setIsLoggedIn: (loggedIn: boolean) => void;
   openModalHowToPlay: () => void;
   handleGoogleLogin: () => void;
   toggleLanguage: (lang: 'en' | 'th') => void;
@@ -25,7 +25,7 @@ const NavBar: React.FC<NavBarProps> = ({
   isLoggedIn,
   openModalHowToPlay,
   handleGoogleLogin,
-  setIsLoggedIn, 
+  setIsLoggedIn,
   toggleLanguage,
   isModalHowToPlayOpen,
   closeModalHowToPlay,
@@ -35,7 +35,7 @@ const NavBar: React.FC<NavBarProps> = ({
   const signOut = () => {
     // Remove token from localStorage
     localStorage.removeItem("token");
-    
+
     // Update isLoggedIn state
     setIsLoggedIn(false);
   };
@@ -53,7 +53,7 @@ const NavBar: React.FC<NavBarProps> = ({
           width={500}
           height={300}
           priority
-          style={{ width: "100%", height: "auto" }} 
+          style={{ width: "100%", height: "auto" }}
         />
       </div>
 
@@ -82,22 +82,22 @@ const NavBar: React.FC<NavBarProps> = ({
           <>
             {user && (<UserProfile />)}
             <div className="w-full flex flex-col items-center sm:flex-row-reverse  sm:justify-between p-8">
-            <Button
-  onClick={openModalHowToPlay}
-  id="btn-how-to-play-loggin"
-  className="btn w-48 bg-primary text-white font-bold py-3 rounded-lg shadow-lg hover:bg-yellow-70 transition duration-200"
->
-  {HOWTOPLAY.TITLE[language]}
-</Button>
-            //ปุ่ม Sign out ตรงนี้ 
-            <Button
-  className="btn w-48 border-2 border-gray-70 text-gray-600 bg-transparent hover:bg-gray-100"
-  onClick={signOut}
->
-  Sign out
-</Button>
-            </div>
+              <Button
+                onClick={openModalHowToPlay}
+                id="btn-how-to-play-loggin"
+                className="btn w-48 bg-primary text-white font-bold py-3 rounded-lg shadow-lg hover:bg-yellow-70 transition duration-200"
+              >
+                {HOWTOPLAY.TITLE[language]}
+              </Button>
            
+              <Button
+                className="btn w-48 border-2 border-gray-70 text-gray-600 bg-transparent hover:bg-gray-100"
+                onClick={signOut}
+              >
+                Sign out
+              </Button>
+            </div>
+
           </>
         )}
       </div>
