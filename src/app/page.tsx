@@ -14,10 +14,10 @@ export default function Home() {
 
   const openModalHowToPlay = () => setModalHowToPlayOpen(true);
   const closeModalHowToPlay = () => setModalHowToPlayOpen(false);
-
+  const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/v1'; 
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:3001/v1/auth/google/";
-    //window.location.href = "https://tictactoe-backend-gsjf.onrender.com/v1/auth/google";
+    //window.location.href = "http://localhost:3001/v1/auth/google/";
+    window.location.href = `${baseURL}/auth/google`;
   };
 
   const toggleLanguage = (lang: 'en' | 'th') => {
