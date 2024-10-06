@@ -109,6 +109,8 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                                         disabled={cell !== null || !!winner || !gameStarted}
                                         style={{
                                             fontSize: '5vw',
+                                            minWidth:'50px',
+                                            minHeight:'50px',
                                             maxWidth: '100px',
                                             maxHeight: '100px',
                                             display: 'flex',
