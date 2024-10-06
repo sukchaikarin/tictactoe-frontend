@@ -108,7 +108,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                                         onClick={() => handleClick(rowIndex, colIndex)}
                                         disabled={cell !== null || !!winner || !gameStarted}
                                         style={{
-                                            fontSize: '5vw',
+                                            fontSize: '4vw',
                                             minWidth:'50px',
                                             minHeight:'50px',
                                             maxWidth: '96px',
