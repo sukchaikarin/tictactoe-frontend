@@ -1,14 +1,10 @@
+// Home.tsx
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from 'next/image';
-import { FcGoogle } from "react-icons/fc";
-import ox from "../../public/logo/ox-games.webp";
-import { AUTH_CONSTANTS, FOOTER, HOWTOPLAY } from '../constants/constants';
-import GamesRules from '@/components/modals/GamesRules';
-import { Button } from 'react-daisyui';
-import ScoreAndWinTabs from '@/components/leaderboard/ScoreAndWinTabs';
-import TicTacToe from '@/components/TicTacToe/TicTacToe';
-import LanguageSelector from '@/components/langs/LanguageSelector';  // นำเข้า component
+import { FOOTER } from "../constants/constants";
+import NavBar from "@/components/NavBar"; // นำเข้า NavBar component
+import ScoreAndWinTabs from "@/components/leaderboard/ScoreAndWinTabs";
+import TicTacToe from "@/components/TicTacToe/TicTacToe";
 
 export default function Home() {
   const [language, setLanguage] = useState<'en' | 'th'>('en');
@@ -45,52 +41,24 @@ export default function Home() {
 
   return (
     <main className="flex flex-col min-h-screen justify-items-center bg-gray-90">
-
-      <div className="flex  flex-1  justify-items-center justify-between gap-10  h-full ">
-        <nav className="gap-10 w-full flex flex-col  my-10 items-center relative bg-gray-90 rounded-r-xl shadow-lg   shadow-gray-10">
-
-          {/* นำ component LanguageSelector มาใช้ */}
-          <LanguageSelector language={language} toggleLanguage={toggleLanguage} />
-
-          <div className="w-8/10 h-1/3 flex items-center  m-5 mt-10">
-            <Image
-              className=' rounded-xl shadow-lg shadow-gray-10'
-              src={ox}
-              alt="Description of the image"
-              width={500}
-            />
-          </div>
-
-          <div className=' h-full w-full'>
-            {!isLoggedIn && (
-              <div className='flex flex-col items-center justify-center gap-4  h-2/3'>
-                <Button onClick={handleGoogleLogin} id="SignInGoogle" className="btn rounded-xl border-2 border-gray-10 w-1/2 mt-4">
-                  <FcGoogle className="text-black text-3xl" />
-                  {AUTH_CONSTANTS.SIGN_IN[language]}
-                </Button>
-                <Button onClick={openModalHowToPlay} id="btn-how-to-play-isloggin" className="btn rounded-xl border-2 border-gray-10 w-1/2">
-                  {HOWTOPLAY.TITLE[language]}
-                </Button>
-              </div>
-            )}
-            {isLoggedIn && (
-              <>
-                <div className="w-full flex-1 bg-yellow-70 text-gray-10">asd</div>
-                <Button onClick={openModalHowToPlay} id="btn-how-to-play-loggin" className="btn w-2/5 mt-auto">
-                  {HOWTOPLAY.TITLE[language]}
-                </Button>
-              </>
-            )}
-          </div>
-          <GamesRules isOpen={isModalHowToPlayOpen} language={language} closeModal={closeModalHowToPlay} />
-        </nav>
+      <div className="flex flex-1 justify-items-center justify-between gap-10 h-full">
+        {/* ใช้ NavBar ใหม่ที่สร้างขึ้น */}
+        <NavBar 
+          language={language}
+          isLoggedIn={isLoggedIn}
+          openModalHowToPlay={openModalHowToPlay}
+          handleGoogleLogin={handleGoogleLogin}
+          toggleLanguage={toggleLanguage}
+          isModalHowToPlayOpen={isModalHowToPlayOpen}
+          closeModalHowToPlay={closeModalHowToPlay}
+        />
 
         <section className="w-full my-10 flex flex-col justify-center rounded-xl shadow-lg shadow-gray-10 ">
           <TicTacToe language={language} />
           <div className="h-1/3 p-4 bg-red-70 m-2">Div 1/3</div>
         </section>
 
-        <aside className=" w-full  my-10 flex justify-center  rounded-l-xl shadow-lg border-2  border-gray-10">
+        <aside className="w-full my-10 flex justify-center rounded-l-xl shadow-lg border-2 border-gray-10">
           <ScoreAndWinTabs language={language} />
         </aside>
       </div>
