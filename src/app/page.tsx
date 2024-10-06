@@ -8,7 +8,7 @@ import GamesRules from '@/components/modals/GamesRules';
 import { Button } from 'react-daisyui';
 import ScoreAndWinTabs from '@/components/leaderboard/ScoreAndWinTabs';
 import TicTacToe from '@/components/TicTacToe/TicTacToe';
-import LanguageSelector from '@/components/LanguageSelector';  // นำเข้า component
+import LanguageSelector from '@/components/langs/LanguageSelector';  // นำเข้า component
 
 export default function Home() {
   const [language, setLanguage] = useState<'en' | 'th'>('en');
