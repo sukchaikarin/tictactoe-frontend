@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { User, UserService } from "@/_service/users";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
+
 // ประเภทข้อมูล User
 interface UserPayload {
   user: {
@@ -13,6 +14,13 @@ interface UserPayload {
 interface UserContextType {
   user: User | null; // ใช้ user เป็น object หรือ null
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  gameStats: {
+    score: number; // เก็บคะแนน
+    streak: number; // เก็บจำนวนผลชนะติดต่อกัน
+  };
+  win: () => void; // ฟังก์ชันชนะ
+  draw: () => void; // ฟังก์ชันเสมอ
+  lose: () => void; // ฟังก์ชันแพ้
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -31,6 +39,10 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null); // เปลี่ยนเป็น user เดียวที่เป็น object
+  const [score, setScore] = useState<number>(0); // สถานะคะแนน
+  
+  const [streak, setStreak] = useState<number>(0); // สถานะจำนวนผลชนะติดต่อกัน
+  
 
   useEffect(() => {
     const fetchUser = async (userId: string) => {
@@ -57,8 +69,45 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     }
   }, []);
 
+  // ฟังก์ชันจัดการคะแนนเมื่อชนะ
+  const win = () => {
+    console.log(score)
+    setScore(prevScore => prevScore + 1); // เพิ่มคะแนน 1
+    setStreak(prevStreak => {
+      const newStreak = prevStreak + 1; // เพิ่ม streak 1
+      if (newStreak === 3) {
+        setScore(prevScore => prevScore + 1); // เพิ่มคะแนนอีก 1 ถ้า streak เท่ากับ 3
+        return 0; // รีเซ็ต streak เป็น 0
+      }
+      return newStreak;
+    });
+    console.log("🚀 ~ UserProvider ~ score:", score)
+    console.log("🚀 ~ UserProvider ~ streak:", streak)
+  };
+
+  // ฟังก์ชันจัดการคะแนนเมื่อเสมอ
+  const draw = () => {
+    setStreak(0); // รีเซ็ต streak เป็น 0
+    console.log("🚀 ~ UserProvider ~ score:", score)
+    console.log("🚀 ~ UserProvider ~ streak:", streak)
+  };
+
+  // ฟังก์ชันจัดการคะแนนเมื่อแพ้
+  const lose = () => {
+    setScore(prevScore => prevScore - 1); // ลดคะแนน 1
+    setStreak(0); // รีเซ็ต streak เป็น 0
+    console.log("🚀 ~ UserProvider ~ score:", score)
+    console.log("🚀 ~ UserProvider ~ streak:", streak)
+  };
+
+  // สร้างอ็อบเจกต์สำหรับเก็บค่าทั้งหมด
+  const gameStats = {
+    score,
+    streak,
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, gameStats, win, draw, lose }}>
       {children}
     </UserContext.Provider>
   );

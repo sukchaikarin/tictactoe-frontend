@@ -39,6 +39,7 @@ const GamesRules: React.FC<GamesRulesProps> = ({ isOpen, language, closeModal })
         <Modal
             title={GAME_RULES.TITLE[language]}
             open={isOpen}
+            centered
             onCancel={closeModal}
             footer={[
                 <Button key="close" onClick={closeModal}>

@@ -15,8 +15,8 @@ export default function Home() {
   const closeModalHowToPlay = () => setModalHowToPlayOpen(false);
 
   const handleGoogleLogin = () => {
-    //window.location.href = "http://localhost:3001/v1/auth/google/";
-    window.location.href = "https://tictactoe-backend-gsjf.onrender.com/v1/auth/google";
+    window.location.href = "http://localhost:3001/v1/auth/google/";
+    //window.location.href = "https://tictactoe-backend-gsjf.onrender.com/v1/auth/google";
   };
 
   const toggleLanguage = (lang: 'en' | 'th') => {

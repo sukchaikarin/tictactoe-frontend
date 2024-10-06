@@ -1,13 +1,14 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
 import { AUTH_CONSTANTS, HOWTOPLAY } from "../constants/constants";
-import { Button } from "react-daisyui";
+import { Button } from "antd";
 import LanguageSelector from "@/components/langs/LanguageSelector"; // Import LanguageSelector component
 import { useUser } from "@/context/UserContext";
 import GamesRules from "./modals/GamesRules";
 import UserProfile from "@/components/UserProfile"; // Import the UserProfile component
+import { Modal, Spin } from "antd";
 
 interface NavBarProps {
   language: 'en' | 'th';
@@ -32,12 +33,31 @@ const NavBar: React.FC<NavBarProps> = ({
 }) => {
   const { user } = useUser(); // Accessing the user from context
 
-  const signOut = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSignOutLoading, setIsSignOutLoading] = useState(false); // สถานะการโหลดสำหรับ Sign Out
+
+  const signOut = async () => {
+    setIsSignOutLoading(true); // เริ่มการโหลด
+
+    // รอ 2-3 วินาที
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     // Remove token from localStorage
     localStorage.removeItem("token");
 
     // Update isLoggedIn state
     setIsLoggedIn(false);
+    
+    setIsModalVisible(false); // ปิด modal
+    setIsSignOutLoading(false); // หยุดการโหลด
+  };
+
+  const handleSignOutClick = () => {
+    setIsModalVisible(true); // เปิด modal
+  };
+
+  const handleCancelModalSignout = () => {
+    setIsModalVisible(false); // ปิด modal
   };
 
   return (
@@ -91,11 +111,28 @@ const NavBar: React.FC<NavBarProps> = ({
               </Button>
            
               <Button
-                className="btn w-48 border-2 border-gray-70 text-gray-600 bg-transparent hover:bg-gray-100"
-                onClick={signOut}
-              >
-                Sign out
-              </Button>
+        className="btn w-48 border-2 border-gray-70 text-gray-600 bg-transparent hover:bg-gray-100"
+        onClick={handleSignOutClick}
+      >
+        Sign out
+      </Button>
+
+      {/* Modal สำหรับการยืนยันการ Sign Out */}
+      <Modal
+        title="Confirm Sign Out"
+        open={isModalVisible}
+        onCancel={handleCancelModalSignout}
+        footer={null}
+        centered
+      >
+        <p>Are you sure you want to sign out?</p>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Button onClick={handleCancelModalSignout}>Cancel</Button>
+          <Button type="primary" onClick={signOut} disabled={isSignOutLoading}>
+            {isSignOutLoading ? <Spin size="small" /> : 'Sign Out'}
+          </Button>
+        </div>
+      </Modal>
             </div>
 
           </>

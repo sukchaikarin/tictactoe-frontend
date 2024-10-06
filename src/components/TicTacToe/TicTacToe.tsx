@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+"use client";
+
+import React, { useState, useEffect, useRef } from 'react';
 import { Row, Col, Select, Button } from 'antd';
 import {
     makeRandomMove,
@@ -7,7 +9,8 @@ import {
     calculateWinner,
     isBoardFull
 } from './gameUtils';
-import { TicTacToeLabels } from '../../constants/constants'; // นำเข้าคอนสแตนต์
+import { TicTacToeLabels } from '../../constants/constants';
+import { useUser } from '@/context/UserContext'; // Import the UserContext
 
 const { Option } = Select;
 
@@ -17,7 +20,9 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
     const [isXNext, setIsXNext] = useState<boolean>(true);
     const [gameStarted, setGameStarted] = useState<boolean>(false);
     const [difficulty, setDifficulty] = useState<string>('easy');
-
+    const { win, draw, lose ,gameStats} = useUser(); // Destructure win, draw, and lose from the context
+    
+    const hasGameEnded = useRef(false); 
     const winner = calculateWinner(board);
     const isTie = !winner && isBoardFull(board);
     const canResetGame = !!winner || isTie;
@@ -81,6 +86,31 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
         // eslint-disable-next-line
     }, [isXNext, board, gameStarted, winner]);
 
+    useEffect(() => {
+        // Handle game results
+        if (winner || isTie) { // ตรวจสอบว่าผลเกมจบ
+            if (!hasGameEnded.current) { // ถ้ายังไม่เคยจัดการผลเกม
+                if (winner) {
+                    if (winner === 'X') {
+                        win(); // Call win function if player X wins
+                        console.log("🚀 ~ Win ameStats:", gameStats)
+                    } else {
+                        lose();
+                        console.log("🚀 ~ Lose gameStats:", gameStats) // Call lose function if player O wins
+                    }
+                } else if (isTie) {
+                    draw();
+                    console.log("🚀 ~  Tie gameStats:", gameStats) // Call draw function if it's a tie
+                }
+                hasGameEnded.current = true; // ตั้งค่าสถานะว่าเกมจบแล้ว
+            }
+        } else {
+            console.log("🚀 ~ gameStats:", gameStats)
+            hasGameEnded.current = false; // ถ้ายังไม่มีผู้ชนะหรือเสมอ ให้รีเซ็ตสถานะ
+        }
+
+    }, [winner, isTie, win, draw, lose]);
+
     return (
         <div className="flex items-center w-full justify-center h-full text-gray-10">
             <div className="w-4/5 flex flex-col gap-4 h-full justify-center items-center ">
@@ -96,21 +126,21 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                     )}
                 </div>
 
-                <div className=" flex  flex-col w-full justify-center  h-full items-center ">
+                <div className="flex flex-col w-full justify-center h-full items-center ">
                     {board.map((row, rowIndex) => (
-                        <Row key={rowIndex} gutter={[16, 16]} className='flex min-h-24 justify-center w-full   h-full'>
+                        <Row key={rowIndex} gutter={[16, 16]} className='flex min-h-24 justify-center w-full h-full'>
                             {row.map((cell, colIndex) => (
-                                <Col key={colIndex} xs={4} sm={4} md={8} lg={8} className='flex min-h-24  justify-center w-full  h-full p-1'>
+                                <Col key={colIndex} xs={4} sm={4} md={8} lg={8} className='flex min-h-24 justify-center w-full h-full p-1'>
                                     <Button
-                                        className="w-full min-h-24  hover:scale-105 h-full bg-orange-80 disabled:text-gray-10"
+                                        className="w-full min-h-24 hover:scale-105 h-full bg-orange-80 disabled:text-gray-10"
                                         type="dashed"
                                         block
                                         onClick={() => handleClick(rowIndex, colIndex)}
                                         disabled={cell !== null || !!winner || !gameStarted}
                                         style={{
                                             fontSize: '3vw',
-                                            minWidth:'50px',
-                                            minHeight:'50px',
+                                            minWidth: '50px',
+                                            minHeight: '50px',
                                             maxWidth: '96px',
                                             maxHeight: '96px',
                                             display: 'flex',
@@ -125,24 +155,23 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                         </Row>
                     ))}
                 </div>
-                <div className="flex flex-col  text-center">
-                    
+                <div className="flex flex-col text-center">
                     <div className='flex mb-4 items-center justify-center gap-2 '>
-                    <Button
-                        onClick={handleStartGame}
-                        disabled={gameStarted}
-                        type="primary"
-                    >
-                        {TicTacToeLabels[language].startGame}
-                    </Button>
-                    <Button
-                        onClick={handleResetGame}
-                        disabled={!canResetGame}
-                        type="default"
-                        className="ml-4"
-                    >
-                        {TicTacToeLabels[language].resetGame}
-                    </Button>
+                        <Button
+                            onClick={handleStartGame}
+                            disabled={gameStarted}
+                            type="primary"
+                        >
+                            {TicTacToeLabels[language].startGame}
+                        </Button>
+                        <Button
+                            onClick={handleResetGame}
+                            disabled={!canResetGame}
+                            type="default"
+                            className="ml-4"
+                        >
+                            {TicTacToeLabels[language].resetGame}
+                        </Button>
                     </div>
                     <div className="mb-4 text-center">
                         <label htmlFor="difficulty" className="mr-2">{TicTacToeLabels[language].selectDifficulty}</label>
