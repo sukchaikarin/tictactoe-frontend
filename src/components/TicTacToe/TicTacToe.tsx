@@ -11,7 +11,7 @@ import {
 } from './gameUtils';
 import { TicTacToeLabels } from '../../constants/constants';
 import { useUser } from '@/context/UserContext'; // Import the UserContext
-
+import { notification} from "antd"; 
 const { Option } = Select;
 
 const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
@@ -92,7 +92,21 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
             if (!hasGameEnded.current) { // ถ้ายังไม่เคยจัดการผลเกม
                 if (winner) {
                     if (winner === 'X') {
-                        win(); // Call win function if player X wins
+                        win(); 
+
+                        notification.open({
+                            message: "ผู้ชนะ!",
+                            description: (
+                              <div style={{ padding: '10px' }}> {/* กำหนด padding ที่นี่ */}
+                                {`เหลือเชื่อ! คุณ {user.name} ทำลายสถิติด้วยการชนะต่อเนื่อง {user.maxWinsStreak} ครั้ง!🏆`}
+                              </div>
+                            ),
+                            icon: '🏆',
+                            placement: 'top',
+                          });
+                        
+                        
+                        // Call win function if player X wins
                         console.log("🚀 ~ Win ameStats:", gameStats)
                     } else {
                         lose();

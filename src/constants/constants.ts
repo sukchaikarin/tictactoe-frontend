@@ -4,21 +4,51 @@ export const SWITCHLANG = {
     en: "EN",
     th: "TH",
   },
-  // คุณสามารถเพิ่มข้อความอื่น ๆ ได้ที่นี่
+  
 };
 
-export const CLOSE ={
-        en:"close",
-        th:"ปิด",
+export const PROFILE_LABELS = {
+
+  scores: {
+    en: "Scores",
+    th: "คะแนน",
+  },
+  highestScore: {
+    en: "Highest Score",
+    th: "คะแนนสูงสุด",
+  },
+  maxWinStreak: {
+    en: "Max Win Streak",
+    th: "ชนะต่อเนื่องสูงสุด",
+  },
+  memberSince: {
+    en: "Member since:",
+    th: "สมาชิกตั้งแต่:",
+  },
+  times: {
+    en: "at",
+    th: "เวลา",
+  }
+
+};
+
+export const SIGNOUT_LABEL = {
+  en: "Sign out",
+  th: "ลงชื่อออก",
+}
+
+export const CLOSE = {
+  en: "close",
+  th: "ปิด",
 }
 export const STREAK = {
   LABEL: {
-      en: "Streak",
-      th: "ชนะติดต่อกัน"
+    en: "Streak",
+    th: "ชนะติดต่อกัน"
   },
   TROPHY: {
-      en: "High Streak:",
-      th: "ชนะติดต่อกันสูงสุด:"
+    en: "High Streak:",
+    th: "ชนะติดต่อกันสูงสุด:"
   }
 }
 export const AUTH_CONSTANTS = {
@@ -61,11 +91,11 @@ export const HOWTOPLAY = {
 
 export const TicTacToeLabels = {
   en: {
-    playerTurn: (isXNext: boolean, userName?: string) => 
+    playerTurn: (isXNext: boolean, userName?: string) =>
       isXNext ? `${userName || 'You'}'s turn!` : "Bot's turn!",
-    winner: (winner: string | null, userName?: string) => 
-      winner 
-        ? `${(winner.toLowerCase() === 'x' && userName) ? userName : (winner.toLowerCase() === 'x' ? 'You' : 'Bot')} win(s)!` 
+    winner: (winner: string | null, userName?: string) =>
+      winner
+        ? `${(winner.toLowerCase() === 'x' && userName) ? userName : (winner.toLowerCase() === 'x' ? 'You' : 'Bot')} win(s)!`
         : '',
     tie: "It's a tie!",
     startGame: 'Start Game',
@@ -78,11 +108,11 @@ export const TicTacToeLabels = {
     }
   },
   th: {
-    playerTurn: (isXNext: boolean, userName?: string) => 
+    playerTurn: (isXNext: boolean, userName?: string) =>
       isXNext ? `ถึงตา ${userName || 'คุณ'}!` : 'ถึงตาของบอท!',
-    winner: (winner: string | null, userName?: string) => 
-      winner 
-        ? `${(winner.toLowerCase() === 'x' && userName) ? userName : (winner.toLowerCase() === 'x' ? 'คุณ' : 'บอท')} ชนะ!` 
+    winner: (winner: string | null, userName?: string) =>
+      winner
+        ? `${(winner.toLowerCase() === 'x' && userName) ? userName : (winner.toLowerCase() === 'x' ? 'คุณ' : 'บอท')} ชนะ!`
         : '',
     tie: 'เสมอ!',
     startGame: 'เริ่มเกม',

@@ -3,8 +3,6 @@ import { jwtDecode } from 'jwt-decode';
 import { User, UserService } from "@/_service/users";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { GameplayService } from '@/_service/gameplay';
-
-
 // ประเภทข้อมูล User
 interface UserPayload {
   user: {
@@ -13,6 +11,7 @@ interface UserPayload {
 }
 
 interface UserContextType {
+  language: 'en' | 'th'; 
   user: User | null; // ใช้ user เป็น object หรือ null
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   gameStats: {
@@ -20,6 +19,7 @@ interface UserContextType {
     streak: number;
     highStreak: number; // เก็บจำนวนผลชนะติดต่อกัน
   };
+  setLanguage: (lang: 'en' | 'th') => void; 
   win: () => void; // ฟังก์ชันชนะ
   draw: () => void; // ฟังก์ชันเสมอ
   lose: () => void; // ฟังก์ชันแพ้
@@ -61,7 +61,7 @@ interface UserProviderProps {
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null); // เปลี่ยนเป็น user เดียวที่เป็น object
   const [score, setScore] = useState<number>(0); // สถานะคะแนน
-
+  const [language, setLanguage] = useState<'en' | 'th'>('en');
   const [streak, setStreak] = useState<number>(0); // สถานะจำนวนผลชนะติดต่อกัน
   const [highStreak, setHighStreak] = useState<number>(0);
 
@@ -147,7 +147,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, gameStats, win, draw, lose }}>
+    <UserContext.Provider value={{language, setLanguage, user, setUser, gameStats, win, draw, lose }}>
       {children}
     </UserContext.Provider>
   );

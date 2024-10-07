@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
-import { AUTH_CONSTANTS, HOWTOPLAY } from "../constants/constants";
+import { AUTH_CONSTANTS, HOWTOPLAY, SIGNOUT_LABEL } from "../constants/constants";
 import { Button } from "antd";
 import LanguageSelector from "@/components/langs/LanguageSelector"; // Import LanguageSelector component
 import { useUser } from "@/context/UserContext";
@@ -101,7 +101,7 @@ const NavBar: React.FC<NavBarProps> = ({
 
         {isLoggedIn && (
           <>
-            {user && (<UserProfile />)}
+            {user && (<UserProfile language={language} />)}
             <div className="w-full flex flex-col items-center sm:flex-row-reverse  sm:justify-between p-8">
               <Button
                 onClick={openModalHowToPlay}
@@ -115,7 +115,7 @@ const NavBar: React.FC<NavBarProps> = ({
         className="btn w-48 border-2 border-gray-70 text-gray-600 bg-transparent hover:bg-gray-100"
         onClick={handleSignOutClick}
       >
-        Sign out
+        {SIGNOUT_LABEL[language]}
       </Button>
 
       {/* Modal สำหรับการยืนยันการ Sign Out */}

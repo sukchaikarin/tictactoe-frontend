@@ -6,12 +6,14 @@ import NavBar from "@/components/NavBar"; // นำเข้า NavBar component
 import ScoreAndWinTabs from "@/components/leaderboard/ScoreAndWinTabs";
 import TicTacToe from "@/components/TicTacToe/TicTacToe";
 import StreakDisplay from "@/components/TicTacToe/Trophy";
+import { useUser } from '@/context/UserContext'; 
+
 
 export default function Home() {
-  const [language, setLanguage] = useState<'en' | 'th'>('en');
+  //const [language, setLanguage] = useState<'en' | 'th'>('en');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalHowToPlayOpen, setModalHowToPlayOpen] = useState<boolean>(false);
-
+  const { language, setLanguage} = useUser();
   const openModalHowToPlay = () => setModalHowToPlayOpen(true);
   const closeModalHowToPlay = () => setModalHowToPlayOpen(false);
   const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/v1'; 

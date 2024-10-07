@@ -5,13 +5,13 @@ import { UserOutlined, TrophyOutlined, LineChartOutlined } from '@ant-design/ico
 import { useUser } from "@/context/UserContext"; // Adjust the import path to where your context is defined
 import { formatDate } from "@/utils/formatDate";
 const { Title, Text } = Typography;
-
-const UserProfile: React.FC = () => {
+import { AUTH_CONSTANTS, HOWTOPLAY, PROFILE_LABELS } from "../constants/constants";
+const UserProfile: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
     const { user } = useUser(); // Accessing the user from context
     const isLoading = !user; // Check if the user data is still being loaded
 //test env
     // Default values for formatted date and time
-    const { date, time } = user ? formatDate(user.createdAt) : { date: "", time: "" };
+    const { date, time } = user ? formatDate(user.createdAt,language) : { date: "", time: "" };
 
 
 
@@ -56,7 +56,7 @@ const UserProfile: React.FC = () => {
                         <Card bordered={false} style={{ textAlign: 'center', height: '150px' }}>
                             <LineChartOutlined style={{ fontSize: '24px', color: '#4CAF50' }} />
                             <Title level={5} style={{ marginTop: '10px' }}>
-                                Scores
+                                {PROFILE_LABELS.scores[language]}
                             </Title>
                             <Text>{user.scores}</Text>
                         </Card>
@@ -69,7 +69,7 @@ const UserProfile: React.FC = () => {
                         <Card bordered={false} style={{ textAlign: 'center', height: '150px' }}>
                             <TrophyOutlined style={{ fontSize: '24px', color: '#FFD700' }} />
                             <Title level={5} style={{ marginTop: '10px' }}>
-                                Highest Score
+                                {PROFILE_LABELS.highestScore[language]}
                             </Title>
                             <Text>{user.highestScore}</Text>
                         </Card>
@@ -82,7 +82,7 @@ const UserProfile: React.FC = () => {
                         <Card bordered={false} style={{ textAlign: 'center', height: '150px' }}>
                             <TrophyOutlined style={{ fontSize: '24px', color: '#FF5722' }} />
                             <Title level={5} style={{ marginTop: '10px' }}>
-                                Max Win Streak
+                                {PROFILE_LABELS.maxWinStreak[language]}
                             </Title>
                             <Text>{user.maxWinsStreak}</Text>
                         </Card>
@@ -95,7 +95,7 @@ const UserProfile: React.FC = () => {
                 {isLoading ? (
                     <Skeleton.Input active style={{ width: '100px' }} />
                 ) : (
-                    <Text type="secondary">Member since: {date} at {time}</Text>
+                    <Text type="secondary">{PROFILE_LABELS.memberSince[language]} {date} {PROFILE_LABELS.times[language]} {time}</Text>
                 )}
             </div>
         </Card>
