@@ -11,7 +11,16 @@ export const CLOSE ={
         en:"close",
         th:"ปิด",
 }
-
+export const STREAK = {
+  LABEL: {
+      en: "Streak",
+      th: "ชนะติดต่อกัน"
+  },
+  TROPHY: {
+      en: "High Streak:",
+      th: "ชนะติดต่อกันสูงสุด:"
+  }
+}
 export const AUTH_CONSTANTS = {
   SIGN_IN: {
     en: "Sign in with Google",
@@ -50,36 +59,73 @@ export const HOWTOPLAY = {
 
 };
 
-// constants.ts
-
 export const TicTacToeLabels = {
   en: {
-      playerTurn: (isXNext: boolean) => (isXNext ? 'Your turn!' : 'Bot\'s turn!'),
-      winner: (winner: string | null) => (winner ? `${winner} wins!` : ''),
-      tie: 'It\'s a tie!',
-      startGame: 'Start Game',
-      resetGame: 'Reset Game',
-      selectDifficulty: 'Select Difficulty:',
-      difficultyOptions: {
-          easy: 'Easy',
-          medium: 'Normal',
-          hard: 'Expert'
-      }
+    playerTurn: (isXNext: boolean, userName?: string) => 
+      isXNext ? `${userName || 'You'}'s turn!` : "Bot's turn!",
+    winner: (winner: string | null, userName?: string) => 
+      winner 
+        ? `${(winner.toLowerCase() === 'x' && userName) ? userName : (winner.toLowerCase() === 'x' ? 'You' : 'Bot')} win(s)!` 
+        : '',
+    tie: "It's a tie!",
+    startGame: 'Start Game',
+    resetGame: 'Reset Game',
+    selectDifficulty: 'Select Difficulty:',
+    difficultyOptions: {
+      easy: 'Easy',
+      medium: 'Normal',
+      hard: 'Expert'
+    }
   },
   th: {
-      playerTurn: (isXNext: boolean) => (isXNext ? 'ถึงตาคุณ!' : 'ถึงตาของบอท!'),
-      winner: (winner: string | null) => (winner ? `${winner} ชนะ!` : ''),
-      tie: 'เสมอ!',
-      startGame: 'เริ่มเกม',
-      resetGame: 'รีเซ็ตเกม',
-      selectDifficulty: 'เลือกความยาก:',
-      difficultyOptions: {
-          easy: 'ง่าย',
-          medium: 'ปานกลาง',
-          hard: 'ยาก'
-      }
+    playerTurn: (isXNext: boolean, userName?: string) => 
+      isXNext ? `ถึงตา ${userName || 'คุณ'}!` : 'ถึงตาของบอท!',
+    winner: (winner: string | null, userName?: string) => 
+      winner 
+        ? `${(winner.toLowerCase() === 'x' && userName) ? userName : (winner.toLowerCase() === 'x' ? 'คุณ' : 'บอท')} ชนะ!` 
+        : '',
+    tie: 'เสมอ!',
+    startGame: 'เริ่มเกม',
+    resetGame: 'รีเซ็ตเกม',
+    selectDifficulty: 'เลือกความยาก:',
+    difficultyOptions: {
+      easy: 'ง่าย',
+      medium: 'ปานกลาง',
+      hard: 'ยาก'
+    }
   }
 };
+
+
+
+// export const TicTacToeLabels = {
+//   en: {
+//       playerTurn: (isXNext: boolean) => (isXNext ? 'Your turn!' : 'Bot\'s turn!'),
+//       winner: (winner: string | null) => (winner ? `${winner} wins!` : ''),
+//       tie: 'It\'s a tie!',
+//       startGame: 'Start Game',
+//       resetGame: 'Reset Game',
+//       selectDifficulty: 'Select Difficulty:',
+//       difficultyOptions: {
+//           easy: 'Easy',
+//           medium: 'Normal',
+//           hard: 'Expert'
+//       }
+//   },
+//   th: {
+//       playerTurn: (isXNext: boolean) => (isXNext ? 'ถึงตาคุณ!' : 'ถึงตาของบอท!'),
+//       winner: (winner: string | null) => (winner ? `${winner} ชนะ!` : ''),
+//       tie: 'เสมอ!',
+//       startGame: 'เริ่มเกม',
+//       resetGame: 'รีเซ็ตเกม',
+//       selectDifficulty: 'เลือกความยาก:',
+//       difficultyOptions: {
+//           easy: 'ง่าย',
+//           medium: 'ปานกลาง',
+//           hard: 'ยาก'
+//       }
+//   }
+// };
 
 
 export const STATISTICLABEL = {

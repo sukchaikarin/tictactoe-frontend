@@ -20,7 +20,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
     const [isXNext, setIsXNext] = useState<boolean>(true);
     const [gameStarted, setGameStarted] = useState<boolean>(false);
     const [difficulty, setDifficulty] = useState<string>('easy');
-    const { win, draw, lose ,gameStats} = useUser(); // Destructure win, draw, and lose from the context
+    const { win, draw, lose ,gameStats,user} = useUser(); // Destructure win, draw, and lose from the context
     
     const hasGameEnded = useRef(false); 
     const winner = calculateWinner(board);
@@ -115,15 +115,24 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
         <div className="flex items-center w-full justify-center h-full text-gray-10">
             <div className="w-4/5 flex flex-col gap-4 h-full justify-center items-center ">
                 <div id="turnPlay" className="flex justify-center items-center mt-2 p-6 text-2xl h-8 w-full text-center">
-                    {gameStarted && (
-                        winner ? (
-                            <p>{TicTacToeLabels[language].winner(winner)}</p>
-                        ) : isTie ? (
-                            <p>{TicTacToeLabels[language].tie}</p>
-                        ) : (
-                            <p>{TicTacToeLabels[language].playerTurn(isXNext)}</p>
-                        )
-                    )}
+                {gameStarted && (
+  winner ? (
+    <p>
+      {user && user.name 
+        ? TicTacToeLabels[language].winner(winner, user.name) 
+        : TicTacToeLabels[language].winner(winner)}
+    </p>
+  ) : isTie ? (
+    <p>{TicTacToeLabels[language].tie}</p>
+  ) : (
+    <p>
+      {user && user.name 
+        ? TicTacToeLabels[language].playerTurn(isXNext, user.name) 
+        : TicTacToeLabels[language].playerTurn(isXNext)}
+    </p>
+  )
+)}
+
                 </div>
                 <div className="flex flex-col w-full justify-center h-full items-center ">
                     {board.map((row, rowIndex) => (
