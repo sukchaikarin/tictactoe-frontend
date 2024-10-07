@@ -66,7 +66,7 @@ const NavBar: React.FC<NavBarProps> = ({
       {/* Use LanguageSelector component */}
       <LanguageSelector language={language} toggleLanguage={toggleLanguage} />
 
-      <div className="flex items-center  mb-2 mt-14 bg-yellow-50">
+      <div className="flex items-center  mb-2 mt-14 ">
         <Image
           className="rounded-md shadow-md shadow-gray-10"
           src="/logo/ox-games.webp"
