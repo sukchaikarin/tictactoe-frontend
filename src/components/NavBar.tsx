@@ -50,6 +50,7 @@ const NavBar: React.FC<NavBarProps> = ({
     
     setIsModalVisible(false); // ปิด modal
     setIsSignOutLoading(false); // หยุดการโหลด
+    window.location.reload();
   };
 
   const handleSignOutClick = () => {
