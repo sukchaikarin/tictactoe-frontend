@@ -74,10 +74,12 @@ const ScoreAndWinTabs: React.FC<ScoreAndWinTabsProps> = ({ language }) => {
 
   useEffect(() => {
     fetchLeaderboardData();
+    // eslint-disable-next-line
   }, [scorerPage,win,draw,lose,gameStats]);
 
   useEffect(() => {
     fetchMaxWinsStreakData();
+// eslint-disable-next-line
   }, [winnerPage,win,draw,lose,gameStats]);
 
   const handleScorerPageChange = (page: number) => {

@@ -5,7 +5,7 @@ import { UserOutlined, TrophyOutlined, LineChartOutlined } from '@ant-design/ico
 import { useUser } from "@/context/UserContext"; // Adjust the import path to where your context is defined
 import { formatDate } from "@/utils/formatDate";
 const { Title, Text } = Typography;
-import { AUTH_CONSTANTS, HOWTOPLAY, PROFILE_LABELS } from "../constants/constants";
+import { PROFILE_LABELS } from "../constants/constants";
 const UserProfile: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
     const { user } = useUser(); // Accessing the user from context
     const isLoading = !user; // Check if the user data is still being loaded

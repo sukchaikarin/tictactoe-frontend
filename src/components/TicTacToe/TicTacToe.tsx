@@ -113,7 +113,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
             console.log("🚀 ~ gameStats:", gameStats)
             hasGameEnded.current = false; // ถ้ายังไม่มีผู้ชนะหรือเสมอ ให้รีเซ็ตสถานะ
         }
-
+// eslint-disable-next-line
     }, [winner, isTie, win, draw, lose]);
 
     return (
