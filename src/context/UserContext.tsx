@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { User, UserService } from "@/_service/users";
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { GameplayService } from '@/_service/gameplay';
+import { notification } from "antd";
 // ประเภทข้อมูล User
 interface UserPayload {
   user: {
@@ -11,7 +12,7 @@ interface UserPayload {
 }
 
 interface UserContextType {
-  language: 'en' | 'th'; 
+  language: 'en' | 'th';
   user: User | null; // ใช้ user เป็น object หรือ null
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
   gameStats: {
@@ -19,7 +20,7 @@ interface UserContextType {
     streak: number;
     highStreak: number; // เก็บจำนวนผลชนะติดต่อกัน
   };
-  setLanguage: (lang: 'en' | 'th') => void; 
+  setLanguage: (lang: 'en' | 'th') => void;
   win: () => void; // ฟังก์ชันชนะ
   draw: () => void; // ฟังก์ชันเสมอ
   lose: () => void; // ฟังก์ชันแพ้
@@ -100,6 +101,39 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         const responseBonus: IncrementResponseData = await GameplayService.incrementScoreByTwo(user._id, user.scores, newHighStreak)
         console.log("🚀 ~ win ~ responseBonus:", responseBonus)
         if (responseBonus) {
+          console.log("this is a responseBonus", responseBonus)
+          //newHighScores
+          //maxWinsStreakUpdated
+
+
+          //แจ้งเตือนเมื่อทำลายสถิติชนะต่อเนื่องสูงสุด
+          if(responseBonus.maxWinsStreakUpdated){
+            notification.open({
+              message: language === 'en' ? "Winner!" : "ผู้ชนะ!", // เปลี่ยนข้อความตามภาษา
+              description: (
+                <div style={{ padding: '10px' }}> {/* กำหนด padding ที่นี่ */}
+                  {responseBonus.streakMessage[language]}
+                </div>
+              ),
+              icon: '🏆',
+              //placement: 'top',
+            });
+           }
+              
+           //แจ้งเตือนผลชนะ
+            if (responseBonus.scoresMessage) {
+              notification.open({
+                message: language === 'en' ? "Winner!" : "ผู้ชนะ!", // เปลี่ยนข้อความตามภาษา
+                description: (
+                  <div style={{ padding: '10px' }}> {/* กำหนด padding ที่นี่ */}
+                    {responseBonus.scoresMessage[language]}
+                  </div>
+                ),
+                icon: '🏆',
+                //placement: 'top',
+              });
+            }
+
           setUser(responseBonus.user);
         }
       }
@@ -110,7 +144,44 @@ export const UserProvider = ({ children }: UserProviderProps) => {
         const responseIncrement: IncrementResponseData = await GameplayService.incrementScore(user._id, user.scores, newHighStreak)
 
         if (responseIncrement) {
+          console.log("this is a responseIncrement", responseIncrement)
+          //newHighScores
+          //maxWinsStreakUpdated
+         //แจ้งเตือนเมื่อทำลายสถิติชนะต่อเนื่องสูงสุด
+         if(responseIncrement.maxWinsStreakUpdated){
+          notification.open({
+            message: language === 'en' ? "Winner!" : "ผู้ชนะ!", // เปลี่ยนข้อความตามภาษา
+            description: (
+              <div style={{ padding: '10px' }}> {/* กำหนด padding ที่นี่ */}
+                {responseIncrement.streakMessage[language]}
+              </div>
+            ),
+            icon: '🏆',
+            //placement: 'top',
+          });
+         }
+            
+         //แจ้งเตือนผลชนะ
+          if (responseIncrement.scoresMessage) {
+            notification.open({
+              message: language === 'en' ? "Winner!" : "ผู้ชนะ!", // เปลี่ยนข้อความตามภาษา
+              description: (
+                <div style={{ padding: '10px' }}>
+                  {responseIncrement.scoresMessage[language]} {/* ข้อความตามภาษาที่เลือก */}
+                </div>
+              ),
+              icon: '🏆', // ใช้อิโมจิเป็นไอคอน
+              // placement: 'top',
+            });
+          }
+
+          //scoresMessage
+          //streakMessage
+          // ใส่ notice ที่นี่
+          // ใส่ notice ที่นี่
           setUser(responseIncrement.user);
+
+
         }
       }
       setScore(prevScore => prevScore + 1);
@@ -122,6 +193,22 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   // ฟังก์ชันจัดการคะแนนเมื่อเสมอ
   const draw = () => {
+
+    // ใส่ notice ที่นี่
+    notification.open({
+      message: language === "en" ? "It's a tie!" : "เสมอ!", // เปลี่ยนข้อความตามภาษา
+      description: (
+        <div style={{ padding: '10px' }}>
+          {language === "en" 
+            ? "Great effort! Let's aim for victory next time!" 
+            : "ความพยายามดีมาก! สู้ใหม่ในครั้งหน้า!"}
+        </div>
+      ),
+      icon: '💪', // ใช้สัญลักษณ์ที่แสดงถึงการให้กำลังใจ
+     // placement: 'top',
+    });
+    
+
     setStreak(0); // รีเซ็ต streak เป็น 0
   };
 
@@ -130,6 +217,19 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     if (user) {
       const responseDecrement: DecrementResponseData = await GameplayService.decrementScore(user._id)
       if (responseDecrement) {
+
+        // ใส่ notice ที่นี่
+        notification.open({
+          message: language === 'en' ? "Loser!" : "ผู้แพ้!", // เปลี่ยนข้อความตามภาษา
+          description: (
+            <div style={{ padding: '10px' }}>
+              {responseDecrement.message[language]}
+            </div>
+          ),
+          icon: '😞', // ใช้อิโมจิแทนไอคอน
+          // placement: 'top',
+        });
+
         setUser(responseDecrement.user);
       }
     }
@@ -147,7 +247,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   };
 
   return (
-    <UserContext.Provider value={{language, setLanguage, user, setUser, gameStats, win, draw, lose }}>
+    <UserContext.Provider value={{ language, setLanguage, user, setUser, gameStats, win, draw, lose }}>
       {children}
     </UserContext.Provider>
   );
