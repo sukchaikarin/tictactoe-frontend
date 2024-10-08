@@ -197,7 +197,7 @@ const TicTacToe: React.FC<{ language: 'en' | 'th' }> = ({ language }) => {
                         >
                             <Option value="easy">{TicTacToeLabels[language].difficultyOptions.easy}</Option>
                             <Option value="medium">{TicTacToeLabels[language].difficultyOptions.medium}</Option>
-                            <Option value="hard" disabled>{TicTacToeLabels[language].difficultyOptions.hard}</Option>
+                            <Option value="hard" >{TicTacToeLabels[language].difficultyOptions.hard}</Option>
                         </Select>
                     </div>
                 </div>
